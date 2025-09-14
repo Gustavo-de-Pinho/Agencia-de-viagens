@@ -24,4 +24,4 @@ class PasseioTuristico:
     @preco.setter
     def preco(self, preco: float):
         if isinstance(preco, float):
-            self.__nome = preco
+            self.__preco = preco
