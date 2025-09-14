@@ -25,10 +25,10 @@ class Cidade:
     def passeios(self) -> list[PasseioTuristico]:
         return self.__passeios
     
-    def adicionar_passeio(self, passeio: PasseioTuristico):
-        if isinstance(passeio, PasseioTuristico):
-            self.__passeios.append(passeio)
-            print(f"Passeio '{passeio.nome}' adicionado a {self.nome}.")
+    def adicionar_passeio(self, passeios: PasseioTuristico):
+        if isinstance(passeios, PasseioTuristico):
+            self.__passeios.append(passeios)
+            print(f"Passeio '{passeios.nome}' adicionado a {self.nome}.")
         else:
             print("Erro: O objeto a ser adicionado não é uma instância de PasseioTuristico.")
 
