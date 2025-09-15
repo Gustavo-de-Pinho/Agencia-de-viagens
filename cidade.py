@@ -8,9 +8,8 @@ class Cidade:
         if isinstance(nome, str):
             self.__nome = nome
     
-        if passeios is not None:
-            if isinstance(passeios, list):
-                self.__passeios = passeios
+        if isinstance(passeios, list):
+            self.__passeios = passeios
         
     @property
     def nome(self) -> str:
