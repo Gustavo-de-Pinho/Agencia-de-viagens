@@ -1,7 +1,7 @@
 from pessoa import Pessoa
 
 class Pagamento:
-    def __init__(self, pessoa: Pessoa, valor:float):
+    def __init__(self, pessoa: Pessoa, valor: float):
         self.__pessoa = None
         self.__valor = None
 
@@ -10,3 +10,20 @@ class Pagamento:
         if isinstance(valor, float):
             self.__valor = valor
     
+    @property
+    def pessoa(self):
+        return self.__pessoa
+    
+    @pessoa.setter
+    def pessoa(self, pessoa):
+        if isinstance(pessoa, Pessoa):
+            self.__pessoa = pessoa
+    
+    @property
+    def valor(self):
+        return self.__valor
+    
+    @valor.setter
+    def valor(self, valor):
+        if isinstance(valor, float):
+            self.__valor = valor
