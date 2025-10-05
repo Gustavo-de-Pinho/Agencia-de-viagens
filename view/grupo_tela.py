@@ -3,11 +3,12 @@ from datetime import datetime
 class GrupoTela:
     def mostra_opcoes(self):
         print("====== OPÇÕES ======")
-        print("> (1) Incluir Membro")
-        print("> (2) Remover Membro")
-        print("> (3) Editar Informações de um Membro")
-        print("> (4) Listar Membros do Grupo")
-        print("> (5) Retonar")
+        print("> (1) Criar Grupo")
+        print("> (2) Excluir Grupo")
+        print("> (3) Incluir Membro")
+        print("> (4) Remover Membro")
+        print("> (5) Listar Membros do Grupo")
+        print("> (6) Retonar")
         print("=====================")
         print()
 
@@ -19,46 +20,61 @@ class GrupoTela:
             return opcao
         except:
             return None
+        
+    def pegar_codigo_grupo(self):
+        codigo = input("> Código do Grupo: ")
 
-    def incluir_membro(self):
-        print("======= INCLUIR MEMBRO =======")
-        nome = input("> Nome: ")
-        data_nascimento = input("> Data de nascimento (DD-MM-AAAA): ")
+        try:
+            codigo = int(codigo)
+            return codigo
+        except:
+            return None        
+
+    def criar_grupo(self):
+        print("======= CRIAR GRUPO =======")
+        codigo = self.pegar_codigo_grupo()
+        print("===========================")
+
+        return codigo
+        
+    def excluir_grupo(self):
+        print("======= EXCLUIR GRUPO =======")
+        codigo = self.pegar_codigo_grupo()
+        print("=============================")
+
+        return codigo
+
+    def adicionar_membro(self):
+        print("======= ADICIONAR MEMBRO =======")
+        codigo = self.pegar_codigo_grupo()
         cpf = input("> CPF: ")
-        telefone = input("> Telefone: ")
-        print()
+        print("================================")
 
-        if isinstance(nome, str) and isinstance(data_nascimento, datetime) and isinstance(cpf, str) and isinstance(telefone, str):
-            return {"nome": nome, "data_nascimento": data_nascimento, "cpf": cpf, "telefone": telefone}
+        if isinstance(cpf, str) and codigo is not None:
+                return {"codigo": codigo, "cpf": cpf}
         else:
             return None
         
     def remover_membro(self):
         print("======= REMOVER MEMBRO =======")
+        codigo = self.pegar_codigo_grupo()
         cpf = input("> CPF: ")
+        print("==============================")
 
-        return cpf
-    
-    def editar_info_membro(self):
-        print("======= EDITAR MEMBRO =======")
-        cpf = input("> CPF: ")
-        print()
-        print("Novas informações: ")
-        nome = input("> Nome: ")
-        data_nascimento = input("> Data de nascimento (DD-MM-AAAA): ")
-        telefone = input("> Telefone: ")
-
-        if isinstance(nome, str) and isinstance(data_nascimento, datetime) and isinstance(cpf, str) and isinstance(telefone, str):
-            return {"nome": nome, "data_nascimento": data_nascimento, "cpf": cpf, "telefone": telefone}
+        if isinstance(cpf, str) and codigo is not None:
+            return {"codigo": codigo, "cpf": cpf}
         else:
             return None
         
-    def mostrar_membro(self, membro):
-        print(f"> Nome: {membro.nome}")
-        print(f"> Data de Nascimento: {membro.data_nascimento}")
-        print(f"> CPF: {membro.cpf}")
-        print(f"> Telefone: {membro.telefone}")
-        print()
+    def listar_membros(self):
+        print("======= LISTAR MEMBROS DO GRUPO =======")
+        codigo = self.pegar_codigo_grupo()
+        print("=======================================")
 
-    def mostrar_mensagem(msg):
+        if codigo is not None:
+            return codigo
+        else:
+            return None
+
+    def mostrar_mensagem(self, msg):
         print(msg)
