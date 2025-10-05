@@ -1,6 +1,6 @@
-from pessoa import Pessoa
-from transporte import Transporte
-from cidade import Cidade
+from model.pessoa import Pessoa
+from model.transporte import Transporte
+from model.cidade import Cidade
 
 class Passagem:
     def __init__(self, pessoa: Pessoa, valor: float, transportes: Transporte, cidade_origem: Cidade, cidade_destino: Cidade):

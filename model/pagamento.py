@@ -1,4 +1,5 @@
-from pessoa import Pessoa
+from model.pessoa import Pessoa
+# HERDAR DE ABC (ABSTRATO)
 
 class Pagamento:
     def __init__(self, pessoa: Pessoa, valor: float):

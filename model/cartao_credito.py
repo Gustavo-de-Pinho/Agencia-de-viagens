@@ -1,4 +1,4 @@
-from pagamento import Pagamento
+from model.pagamento import Pagamento
 
 class CartaoCredito(Pagamento):
     def __init__(self, pessoa, valor, numero_cartao, bandeira):

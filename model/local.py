@@ -1,5 +1,5 @@
-from cidade import Cidade
-from passeio_turistico import PasseioTuristico
+from model.cidade import Cidade
+from model.passeio_turistico import PasseioTuristico
 
 class Local:
     def __init__(self, cidade: Cidade, passeios: list[PasseioTuristico]):

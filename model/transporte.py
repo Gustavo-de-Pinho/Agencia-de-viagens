@@ -1,4 +1,4 @@
-from empresa import Empresa
+from model.empresa import Empresa
 
 class Transporte:
     def __init__(self, empresa: Empresa, meio_locomocao: str):

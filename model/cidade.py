@@ -1,4 +1,4 @@
-from passeio_turistico import PasseioTuristico
+from model.passeio_turistico import PasseioTuristico
 
 class Cidade:
     def __init__(self, nome: str, passeios: list[PasseioTuristico] = None):

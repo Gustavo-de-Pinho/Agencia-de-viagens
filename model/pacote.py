@@ -1,6 +1,6 @@
-from grupo import Grupo
-from passagem import Passagem
-from local import Local
+from model.grupo import Grupo
+from model.passagem import Passagem
+from model.local import Local
 
 class Pacote:
     def __init__(self, grupo: Grupo, 

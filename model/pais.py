@@ -1,4 +1,4 @@
-from cidade import Cidade
+from model.cidade import Cidade
 
 class Pais:
     def __init__(self, nome: str, cidades: list[Cidade] = None):
