@@ -1,0 +1,2 @@
+class PagamentoTela:
+    pass

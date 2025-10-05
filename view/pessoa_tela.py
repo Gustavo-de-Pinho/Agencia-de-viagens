@@ -1,5 +1,3 @@
-from datetime import datetime
-
 class PessoaTela:
     def mostra_opcoes(self):
         print("======= OPÇÕES =======")
@@ -24,7 +22,7 @@ class PessoaTela:
         cpf = input("> CPF: ")
         telefone = input("> Telefone: ")
 
-        if isinstance(nome, str) and isinstance(data_nascimento, datetime) and isinstance(cpf, str) and isinstance(telefone, str):
+        if isinstance(nome, str) and isinstance(data_nascimento, str) and isinstance(cpf, str) and isinstance(telefone, str):
             return {
                 "nome": nome,
                 "data_nascimento": data_nascimento,
@@ -63,7 +61,7 @@ class PessoaTela:
         nova_data_nascimento = input("> Nova Data de Nascimento: ")
         novo_telefone = input("> Novo Telefone: ")
 
-        if cpf is not None and isinstance(novo_nome, str) and isinstance(nova_data_nascimento, datetime) and isinstance(novo_telefone, str):
+        if cpf is not None and isinstance(novo_nome, str) and isinstance(nova_data_nascimento, str) and isinstance(novo_telefone, str):
             return {
                 "nome": novo_nome,
                 "data_nascimento": nova_data_nascimento,

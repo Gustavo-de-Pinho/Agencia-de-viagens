@@ -6,7 +6,7 @@ class CartaoCredito(Pagamento):
         self.__numero_cartao = None
         self.__bandeira = None
 
-        if isinstance(numero_cartao, int):
+        if isinstance(numero_cartao, str):
             self.__numero_cartao = numero_cartao
         if isinstance(bandeira, str):
             self.__bandeira = bandeira
@@ -17,7 +17,7 @@ class CartaoCredito(Pagamento):
         
     @numero_cartao.setter
     def numero_cartao(self, numero_cartao):
-        if isinstance(numero_cartao, int):
+        if isinstance(numero_cartao, str):
             self.__numero_cartao = numero_cartao
 
     @property
