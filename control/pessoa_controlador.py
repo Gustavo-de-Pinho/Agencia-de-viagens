@@ -7,16 +7,31 @@ class PessoaControlador:
         self.__tela = PessoaTela()
         self.__sistema_controlador = sistema_controlador
 
+    def pessoa_por_cpf(self, cpf):
+        for pessoa in self.__pessoas:
+            if pessoa.cpf == cpf:
+                return pessoa
+        return None 
+
     def incluir_pessoa(self):
         dados = self.__tela.inclui_pessoa()
+        cpf_existe = False
 
         if dados is not None:
-            self.__pessoas.append(Pessoa(dados["nome"], 
-                                         dados["data_nascimento"], 
-                                         dados["cpf"], 
-                                         dados["telefone"]))
+            for pessoa in self.__pessoas:
+                if pessoa.cpf == dados["cpf"]:
+                    cpf_existe = True
+
+            if not cpf_existe:
+                self.__pessoas.append(Pessoa(dados["nome"], 
+                                            dados["data_nascimento"], 
+                                            dados["cpf"], 
+                                            dados["telefone"]))
             
-            self.__tela.mostra_mensagem("PESSOA ADICIONADA")
+                self.__tela.mostra_mensagem("PESSOA ADICIONADA")
+            else:
+                self.__tela.mostra_mensagem("CPF JÁ ESTÁ NO SISTEMA")
+
         else:
             self.__tela.mostra_mensagem("DADOS INVÁLIDOS")
 
