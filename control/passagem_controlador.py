@@ -1,12 +1,13 @@
-from models.pessoa import Pessoa
-from models.cidade import Cidade
-from models.transporte import Transporte
-from models.passagem import Passagem
+from model.pessoa import Pessoa
+from model.cidade import Cidade
+from model.transporte import Transporte
+from model.passagem import Passagem
 
-from views.passagem_tela import PassagemTela
+from view.passagem_tela import PassagemTela
 
 class PassagemController:
-    def __init__(self):
+    def __init__(self, sistema_controlador):
+        self.sistema_controlador = sistema_controlador
         self.view = PassagemTela()
         self.passagens_cadastradas = []
         self.cidades_disponiveis = {
@@ -25,7 +26,7 @@ class PassagemController:
 
     def run(self):
         while True:
-            opcao = self.view.exibir_menu_passagens()
+            opcao = self.view.mostra_opcoes()
             if opcao == '1':
                 self.criar_nova_passagem()
             elif opcao == '2':

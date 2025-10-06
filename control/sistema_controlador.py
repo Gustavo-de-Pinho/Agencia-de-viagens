@@ -2,6 +2,7 @@ from control.grupo_controlador import GrupoControlador
 #from control.pacote_controlador import PacoteControlador
 #rom control.pagamento_controlador import PagamentoControlador
 from control.pessoa_controlador import PessoaControlador
+from control.passagem_controlador import PassagemController
 
 class SistemaControlador:
     def __init__(self):
@@ -9,6 +10,7 @@ class SistemaControlador:
         #self.__pacote_controlador = PacoteControlador(self)
         #self.__pagamento_controlador = PagamentoControlador(self)
         self.__pessoa_controlador = PessoaControlador(self)
+        self.__passagem_controlador = PassagemController(self)
 
     @property
     def grupo_controlador(self):
@@ -25,4 +27,8 @@ class SistemaControlador:
     @property
     def pessoa_controlador(self):
         return self.__pessoa_controlador
+    
+    @property
+    def passagem_controlador(self):
+        return self.__passagem_controlador
     
