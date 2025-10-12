@@ -5,7 +5,7 @@ from model.passagem import Passagem
 
 from view.passagem_tela import PassagemTela
 
-class PassagemController:
+class PassagemControlador:
     def __init__(self, sistema_controlador):
         self.sistema_controlador = sistema_controlador
         self.view = PassagemTela()

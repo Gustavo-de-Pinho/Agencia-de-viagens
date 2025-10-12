@@ -84,16 +84,12 @@ class PessoaControlador:
             }
             self.__tela.mostrar_pessoa(pessoa_dict)
 
-    def retonar(self):
-        self.__sistema_controlador.abre_tela()
-
     def abre_tela(self):
         opcoes = {
             1: self.incluir_pessoa,
             2: self.remover_pessoa,
             3: self.editar_info_pessoa,
             4: self.listar_pessoas,
-            5: self.retonar
         }
 
         continua = True
@@ -102,10 +98,11 @@ class PessoaControlador:
             opcao = self.__tela.mostra_opcoes()
 
             if opcao is not None and opcao in opcoes:
-                if opcao == 5:
-                    continua = False
 
                 opcoes[opcao]()
+
+            elif opcao == 5:
+                break
 
             else:
                 self.__tela.mostra_mensagem("OPÇÃO INVÁLIDA")

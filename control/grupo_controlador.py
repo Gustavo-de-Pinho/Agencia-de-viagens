@@ -81,31 +81,24 @@ class GrupoControlador:
         for membro in self.__grupos[codigo].membros:
             self.__sistema_controlador.pessoa_controlador.tela.mostrar_pessoa(membro)
 
-    def retornar(self):
-        self.__sistema_controlador.abre_tela()
-
     def abre_tela(self):
         opcoes = {
             1: self.criar_grupo,
             2: self.excluir_grupo,
             3: self.adicionar_membro,
             4: self.remover_membro,
-            5: self.listar_membros,
-            6: self.retornar}
+            5: self.listar_membros}
         
-        opcao = self.__tela.mostra_opcoes()
         continua = True
 
         while continua:
-            if opcao is not None and opcao in opcoes:
-                if opcao == 6:
-                    continua = False
-                    opcoes[opcao]()
-                    break
+            opcao = self.__tela.mostra_opcoes()
 
+            if opcao is not None and opcao in opcoes:
                 opcoes[opcao]()
 
-                opcao = self.__tela.mostra_opcoes()
+            elif opcao == 6:
+                break
 
             else:
                 self.__tela.mostrar_mensagem("OPÇÃO INVÁLIDA")

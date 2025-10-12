@@ -71,7 +71,7 @@ class PessoaTela:
         else:
             return None
 
-    def mostrar_pessoa(self, pessoa):
+    def mostrar_pessoa(self, pessoa: dict):
         print("=======================")
         print(f"> Nome: {pessoa["nome"]}")
         print(f"> Data de Nascimento: {pessoa["data_nascimento"]}")

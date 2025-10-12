@@ -4,6 +4,7 @@ class PagamentoTela:
         print("> (1) Realizar Pagamento")
         print("> (2) Histórico de Pagamentos")
         print("> (3) Visualizar Pagamentos por Pacote")
+        print("> (4) Retornar")
         print("======================")
 
         opcao = input("Escolha uma opção: ")
@@ -53,8 +54,9 @@ class PagamentoTela:
     def pagamento_cartao(self):
         print("======= PAGAMENTO CARTÃO =======")
         dados = self.pagamento_padrao_dados()
-        dados["numero_cartao"] = input("> Número do Cartão: ")
-        dados["bandeira_cartao"] = input("> Bandeira do Cartão: ")
+        if dados is not None:
+            dados["numero_cartao"] = input("> Número do Cartão: ")
+            dados["bandeira_cartao"] = input("> Bandeira do Cartão: ")
         print("=================================")
 
         return dados
@@ -66,5 +68,18 @@ class PagamentoTela:
 
         return dados
     
+    def pegar_cpf_lista(self):
+        print("====== LISTAR PAGAMENTOS ======")
+        cpf = input("> CPF do Membro: ")
+        print("===============================")
+
+        return cpf
+    
+    def listar_pagamentos(pagamento_dict: dict):
+        print("========================")
+        for key in pagamento_dict:
+            print(f"> {pagamento_dict[key]}")
+        print("========================")
+
     def mostrar_mensagem(self, msg):
         print(msg)
