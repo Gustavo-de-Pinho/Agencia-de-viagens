@@ -85,8 +85,8 @@ class TransporteControlador:
         if not self.__transportes:
             self.__tela.mostra_mensagem("Nenhum transporte cadastrado.")
             return
-        for t in self.__transportes:
-            self.__tela.mostra_transporte({
+        for idx, t in enumerate(self.__transportes):
+            self.__tela.mostra_transporte(idx, {
                 "empresa": t.empresa.nome,
                 "cnpj": t.empresa.cnpj,
                 "meio": t.meio_locomocao
@@ -133,7 +133,7 @@ class TransporteControlador:
             0: self.retornar
         }
         while True:
-            opcao = self.__tela.tela_opcoes()
+            opcao = self.__tela.mostra_opcoes()
             try:
                 lista_opcoes[opcao]()
             except KeyError:

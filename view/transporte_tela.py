@@ -30,8 +30,8 @@ class TransporteTela:
     def pega_meio_locomocao(self):
         return input("Meio de locomoção: ")
 
-    def mostra_transporte(self, dados):
-        print(f"  Empresa: {dados['empresa']}  |  CNPJ: {dados['cnpj']}  |  Locomoção: {dados['meio']}")
+    def mostra_transporte(self, idx, dados):
+        print(f" ÍNDICE: {idx} | Empresa: {dados['empresa']}  |  CNPJ: {dados['cnpj']}  |  Locomoção: {dados['meio']}")
 
     def seleciona_transporte(self):
         return int(input("Índice do transporte (número): "))
