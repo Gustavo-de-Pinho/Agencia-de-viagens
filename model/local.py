@@ -24,10 +24,3 @@ class Local:
     @property
     def passeios(self) -> list[PasseioTuristico]:
         return self.__passeios
-    
-    def adicionar_passeio(self, passeios: PasseioTuristico):
-        if isinstance(passeios, PasseioTuristico):
-            self.__passeios.append(passeios)
-            print(f"Passeio '{passeios.nome}' adicionado ao local.")
-        else:
-            print("Erro: O objeto a ser adicionado não é uma instância de PasseioTuristico.")
