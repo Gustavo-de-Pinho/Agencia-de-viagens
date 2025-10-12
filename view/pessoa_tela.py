@@ -73,10 +73,10 @@ class PessoaTela:
 
     def mostrar_pessoa(self, pessoa):
         print("=======================")
-        print(f"> Nome: {pessoa.nome}")
-        print(f"> Data de Nascimento: {pessoa.data_nascimento}")
-        print(f"> CPF: {pessoa.cpf}")
-        print(f"> Telefone: {pessoa.telefone}")
+        print(f"> Nome: {pessoa["nome"]}")
+        print(f"> Data de Nascimento: {pessoa["data_nascimento"]}")
+        print(f"> CPF: {pessoa["cpf"]}")
+        print(f"> Telefone: {pessoa["telefone"]}")
         print("=======================")
 
     def mostra_mensagem(self, msg):
