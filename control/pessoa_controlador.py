@@ -76,7 +76,13 @@ class PessoaControlador:
 
     def listar_pessoas(self):
         for pessoa in self.__pessoas:
-            self.__tela.mostrar_pessoa(pessoa)
+            pessoa_dict = {
+                "nome": pessoa.nome,
+                "data_nascimento": pessoa.data_nascimento,
+                "cpf": pessoa.cpf,
+                "telefone": pessoa.telefone
+            }
+            self.__tela.mostrar_pessoa(pessoa_dict)
 
     def retonar(self):
         self.__sistema_controlador.abre_tela()
