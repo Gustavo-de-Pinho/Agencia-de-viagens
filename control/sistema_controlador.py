@@ -4,6 +4,7 @@ from control.grupo_controlador import GrupoControlador
 from control.pessoa_controlador import PessoaControlador
 #from control.passagem_controlador import PassagemController
 from control.transporte_controlador import TransporteControlador
+from control.passeio_turistico_controlador import PasseioTuristicoControlador
 
 class SistemaControlador:
     def __init__(self):
@@ -13,6 +14,7 @@ class SistemaControlador:
         self.__pessoa_controlador = PessoaControlador(self)
         #self.__passagem_controlador = PassagemController(self)
         self.__transporte_controlador = TransporteControlador(self)
+        self.__passeio_turistico_controlador = PasseioTuristicoControlador(self)
 
     @property
     def grupo_controlador(self):
@@ -38,3 +40,6 @@ class SistemaControlador:
     def transporte_controlador(self):
         return self.__transporte_controlador
     
+    @property
+    def passeio_turistico_controlador(self):
+        return self.__passeio_turistico_controlador
