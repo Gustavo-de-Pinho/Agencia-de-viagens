@@ -4,4 +4,4 @@ sistema = SistemaControlador()
 
 # sistema.pessoa_controlador.abre_tela()
 # sistema.grupo_controlador.abre_tela()
-sistema.passagem_controlador.run()
+sistema.transporte_controlador.abre_tela()
