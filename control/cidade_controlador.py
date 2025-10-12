@@ -16,7 +16,6 @@ class CidadeControlador:
         return None
 
     def _busca_cidade_por_nome(self, nome: str) -> Cidade | None:
-        """Busca uma cidade na lista pelo nome."""
         for c in self.__cidades:
             if c.nome.lower() == nome.lower():
                 return c
@@ -78,7 +77,7 @@ class CidadeControlador:
 
     # ---------- CIDADE ----------
     def incluir_cidade(self):
-        """Cadastra uma nova cidade e a associa a um país."""
+        #Cadastra uma nova cidade e a associa a um país.
         if not self.__paises:
             self.__tela.mostra_mensagem("Erro: Cadastre um país antes de adicionar uma cidade.")
             return
@@ -152,11 +151,10 @@ class CidadeControlador:
 
     # ---------- NAVEGAÇÃO ----------
     def retornar(self):
-        """Retorna para a tela principal."""
+        #Retorna para a tela principal.
         self.__controlador_sistema.abre_tela()
 
     def abre_tela(self):
-        """Exibe o menu de opções e lida com a escolha do usuário."""
         lista_opcoes = {
             1: self.incluir_pais,
             2: self.alterar_pais,

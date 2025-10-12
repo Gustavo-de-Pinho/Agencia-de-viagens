@@ -1,84 +1,160 @@
-from model.pessoa import Pessoa
-from model.cidade import Cidade
-from model.transporte import Transporte
 from model.passagem import Passagem
-
 from view.passagem_tela import PassagemTela
 
 class PassagemControlador:
     def __init__(self, sistema_controlador):
-        self.sistema_controlador = sistema_controlador
-        self.view = PassagemTela()
-        self.passagens_cadastradas = []
-        self.cidades_disponiveis = {
-            "são paulo": Cidade(nome="São Paulo"),
-            "rio de janeiro": Cidade(nome="Rio de Janeiro"),
-            "florianópolis": Cidade(nome="Florianópolis"),
+        self.__passagens = []
+        self.__sistema_controlador = sistema_controlador
+        self.__tela = PassagemTela()
+
+    def incluir_passagem(self):
+        #Coleta de Dados via outros Controladores
+        # Selecionar Pessoa
+        self.__sistema_controlador.pessoa_controlador.listar_pessoas()
+        cpf_pessoa = self.__tela.seleciona_pessoa_por_cpf()
+        pessoa = self.__sistema_controlador.pessoa_controlador.pessoa_por_cpf(cpf_pessoa)
+        if not pessoa:
+            self.__tela.mostra_mensagem("Erro: Pessoa não encontrada.")
+            return
+
+        # Selecionar Transporte
+        self.__sistema_controlador.transporte_controlador.listar_transportes()
+        id_transporte = self.__tela.seleciona_transporte_por_id()
+        transporte = self.__sistema_controlador.transporte_controlador._busca_transporte_por_id(id_transporte)
+        if not transporte:
+            self.__tela.mostra_mensagem("Erro: Transporte não encontrado.")
+            return
+
+        # Selecionar Cidades de Origem e Destino
+        self.__sistema_controlador.cidade_controlador.listar_cidades()
+        nome_origem = self.__tela.seleciona_cidade("origem")
+        cidade_origem = self.__sistema_controlador.cidade_controlador._busca_cidade_por_nome(nome_origem)
+        
+        nome_destino = self.__tela.seleciona_cidade("destino")
+        cidade_destino = self.__sistema_controlador.cidade_controlador._busca_cidade_por_nome(nome_destino)
+
+        if not cidade_origem or not cidade_destino:
+            self.__tela.mostra_mensagem("Erro: Cidade de origem ou destino não encontrada.")
+            return
+        
+        if cidade_origem == cidade_destino:
+            self.__tela.mostra_mensagem("Erro: A cidade de origem não pode ser a mesma que a de destino.")
+            return
+            
+        # Pegar o Valor
+        try:
+            valor = self.__tela.pega_valor_passagem()
+        except ValueError:
+            self.__tela.mostra_mensagem("Erro: Valor inválido.")
+            return
+
+        # --- Criação do Objeto Passagem ---
+        nova_passagem = Passagem(pessoa, valor, transporte, cidade_origem, cidade_destino)
+        self.__passagens.append(nova_passagem)
+        self.__tela.mostra_mensagem("Passagem emitida com sucesso!")
+
+    def alterar_passagem(self):
+        self.listar_passagens()
+        if not self.__passagens:
+            return
+
+        try:
+            id_passagem = self.__tela.seleciona_passagem_por_id()
+            passagem_a_alterar = self.__passagens[id_passagem]
+        except (ValueError, IndexError):
+            self.__tela.mostra_mensagem("Erro: ID de passagem inválido.")
+            return
+
+        dados_atuais = {
+            "cpf": passagem_a_alterar.pessoa.cpf,
+            "id_transporte": id(passagem_a_alterar.transportes),
+            "origem": passagem_a_alterar.cidade_origem.nome,
+            "destino": passagem_a_alterar.cidade_destino.nome,
+            "valor": passagem_a_alterar.valor
         }
 
+        novos_dados = self.__tela.pega_dados_para_alterar(dados_atuais)
 
-    def _calcular_valor_passagem(self, dados_transporte: Transporte, cidade_origem: Cidade, cidade_destino: Cidade) -> float:
-        valor_base = 150.0  
-        
-        #regra imaginárias aqui
-        
-        return valor_base
+        # Validação e atualização dos dados
+        # Atualiza Pessoa
+        pessoa = self.__sistema_controlador.pessoa_controlador._busca_pessoa_por_cpf(novos_dados["cpf"])
+        if not pessoa:
+            self.__tela.mostra_mensagem("Erro: Novo CPF não corresponde a uma pessoa cadastrada.")
+            return
+        passagem_a_alterar.pessoa = pessoa
 
-    def run(self):
-        while True:
-            opcao = self.view.mostra_opcoes()
-            if opcao == '1':
-                self.criar_nova_passagem()
-            elif opcao == '2':
-                self.listar_todas_passagens()
-            elif opcao == '0':
-                self.view.mostrar_mensagem("Retornando ao menu principal...")
-                break
-            else:
-                self.view.mostrar_mensagem("Opção inválida. Tente novamente.")
+        # Atualiza Transporte
+        transporte = self.__sistema_controlador.transporte_controlador._busca_transporte_por_id(novos_dados["id_transporte"])
+        if not transporte:
+            self.__tela.mostra_mensagem("Erro: Novo ID de transporte não encontrado.")
+            return
+        passagem_a_alterar.transportes = transporte
 
-    def criar_nova_passagem(self):
+        # Atualiza Cidades
+        cidade_origem = self.__sistema_controlador.cidade_controlador._busca_cidade_por_nome(novos_dados["origem"])
+        cidade_destino = self.__sistema_controlador.cidade_controlador._busca_cidade_por_nome(novos_dados["destino"])
+        if not cidade_origem or not cidade_destino:
+            self.__tela.mostra_mensagem("Erro: Nova cidade de origem ou destino não encontrada.")
+            return
+        passagem_a_alterar.cidade_origem = cidade_origem
+        passagem_a_alterar.cidade_destino = cidade_destino
+
+        # Atualiza Valor
+        passagem_a_alterar.valor = novos_dados["valor"]
+
+        self.__tela.mostra_mensagem("Passagem alterada com sucesso!")
+        self.listar_passagens() 
+
+    def listar_passagens(self):
+        """Lista todas as passagens emitidas."""
+        if not self.__passagens:
+            self.__tela.mostra_mensagem("Nenhuma passagem foi emitida ainda.")
+            return
+
+        self.__tela.mostra_mensagem("\n--- LISTA DE PASSAGENS EMITIDAS ---")
+        for i, passagem in enumerate(self.__passagens):
+            dados = {
+                "id": i,
+                "passageiro": passagem.pessoa.nome,
+                "cpf": passagem.pessoa.cpf,
+                "origem": passagem.cidade_origem.nome,
+                "destino": passagem.cidade_destino.nome,
+                "transporte": f"{passagem.transportes.empresa.nome} - {passagem.transportes.meio_locomocao}",
+                "valor": passagem.valor
+            }
+            self.__tela.mostra_passagem(dados)
+        print("------------------------------------")
+
+
+    def excluir_passagem(self):
+        self.listar_passagens()
+        if not self.__passagens:
+            return
+
         try:
-            # 1. View coleta os dados (sem o valor)
-            dados_brutos = self.view.obter_dados_nova_passagem()
-
-            # 2. Controller aplica REGRA DE NEGÓCIO de validação
-            if dados_brutos["cidade_origem_nome"].lower() == dados_brutos["cidade_destino_nome"].lower():
-                self.view.mostrar_mensagem("Erro: A cidade de origem não pode ser igual à de destino.")
-                return
-
-            # 3. Controller cria os objeto necessários
-            pessoa = Pessoa(dados_brutos["nome_pessoa"], dados_brutos["cpf_pessoa"])
-            transporte = Transporte(dados_brutos["tipo_transporte"], dados_brutos["empresa_transporte"])
+            id_passagem = self.__tela.seleciona_passagem_por_id()
+            if 0 <= id_passagem < len(self.__passagens):
+                passagem_removida = self.__passagens.pop(id_passagem)
+                self.__tela.mostra_mensagem(f"Passagem de {passagem_removida.pessoa.nome} cancelada.")
+            else:
+                raise IndexError
+        except (ValueError, IndexError):
+            self.__tela.mostra_mensagem("Erro: ID de passagem inválido.")
             
-            # Usando sua classe Cidade
-            # Para um sistema real, aqui buscaríamos a cidade em um banco de dados
-            # ou criaríamos uma nova se não existisse.
-            cidade_origem = self.cidades_disponiveis.get(dados_brutos["cidade_origem_nome"].lower(), Cidade(nome=dados_brutos["cidade_origem_nome"]))
-            cidade_destino = self.cidades_disponiveis.get(dados_brutos["cidade_destino_nome"].lower(), Cidade(nome=dados_brutos["cidade_destino_nome"]))
+    def retornar(self):
+        self.__sistema_controlador.abre_tela()
 
-            # 4. Controller executa a REGRA DE NEGÓCIO para calcular o valor
-            valor_calculado = self._calcular_valor_passagem(transporte, cidade_origem, cidade_destino)
-
-            # 5. Controller cria o objeto Passagem principal com o valor calculado
-            nova_passagem = Passagem(
-                pessoa=pessoa,
-                valor=valor_calculado,
-                transporte=transporte,
-                cidade_origem=cidade_origem,
-                cidade_destino=cidade_destino
-            )
-
-            # 6. Armazena o resultado
-            self.passagens_cadastradas.append(nova_passagem)
-
-            # 7. View exibe o sucesso
-            self.view.mostrar_mensagem("Passagem cadastrada com sucesso!")
-            # Opcional: mostrar os detalhes da passagem recém-criada
-            self.view.mostrar_passagem(nova_passagem)
-
-        except Exception as e:
-            self.view.mostrar_mensagem(f"Ocorreu um erro inesperado: {e}")
-
-    def listar_todas_passagens(self):
-        self.view.mostrar_lista_passagens(self.passagens_cadastradas)
+    def abre_tela(self):
+        lista_opcoes = {
+            1: self.incluir_passagem,
+            2: self.alterar_passagem,
+            3: self.listar_passagens,
+            4: self.excluir_passagem,
+            0: self.retornar
+        }
+        while True:
+            try:
+                opcao = self.__tela.mostra_opcoes()
+                lista_opcoes[opcao]()
+            except (KeyError, ValueError):
+                self.__tela.mostra_mensagem("Opção inválida, digite um número da lista.")
