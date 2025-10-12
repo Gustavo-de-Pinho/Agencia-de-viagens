@@ -8,6 +8,18 @@ class GrupoControlador:
         self.__tela = GrupoTela()
         self.__sistema_controlador = sistema_controlador
 
+    def grupo_por_codigo(self, codigo):
+        if codigo in self.__grupos:
+            return self.__grupos[codigo]
+        else:
+            return None
+    
+    def pessoa_em_grupo(self, grupo, pessoa):
+        if pessoa in grupo:
+            return True
+        else:
+            return False
+
     def criar_grupo(self):
         codigo = self.__tela.criar_grupo()
         codigo_existe = False
@@ -38,20 +50,13 @@ class GrupoControlador:
 
     def adicionar_membro(self):
         dados = self.__tela.adicionar_membro()
-        pessoa_existe = False
-        grupo_existe = False
 
         if dados is not None and dados["codigo"] in self.__grupos:
-            grupo_existe = True
-            for pessoa in self.__sistema_controlador.pessoa_controlador.pessoas:
-                if pessoa.cpf == dados["cpf"]:
-                    pessoa_existe = True
-                    self.__grupos[dados["codigo"]].membros.append(pessoa)
+            pessoa = self.__sistema_controlador.pessoa_controlador.pessoa_por_cpf(dados["cpf"])
 
-        if not pessoa_existe and not grupo_existe:
-            self.__tela.mostrar_mensagem("GRUPO OU PESSOA INEXISTENTE")
-        else:
-            self.__tela.mostrar_mensagem("PESSOA ADICIONADA COM SUCESSO")
+            if pessoa is not None:
+                codigo = dados ["codigo"]
+                self.__grupos[codigo].membros.append(pessoa)
 
     def remover_membro(self):
         dados = self.__tela.remover_membro()
@@ -61,14 +66,12 @@ class GrupoControlador:
 
         #MONSTRUOSIDADE!!!!!!!!!!
         if dados is not None and dados["codigo"] in self.__grupos:
-            grupo_existe = True
-            for pessoa in self.__sistema_controlador.pessoa_controlador.pessoas:
-                if pessoa.cpf == dados["cpf"]:
-                    pessoa_existe = True
-                    for membro in self.__grupos[dados["codigo"]].membros:
-                        if membro.cpf == pessoa.cpf:
-                            membro_no_grupo = True
-                            self.__grupos[dados["codigo"]].membros.remove(membro)
+            pessoa = self.__sistema_controlador.pessoa_controlador.pessoa_por_cpf(dados["cpf"])
+            if pessoa is not None:
+                for membro in self.__grupos[dados["codigo"]].membros:
+                    if membro.cpf == pessoa.cpf:
+                        membro_no_grupo = True
+                        self.__grupos[dados["codigo"]].membros.remove(membro)
 
         if not pessoa_existe and not grupo_existe and not membro_no_grupo:
             self.__tela.mostrar_mensagem("GRUPO OU PESSOA INEXISTENTE OU PESSOA NÃO ESTÁ NO GRUPO")
@@ -77,9 +80,15 @@ class GrupoControlador:
 
     def listar_membros(self):
         codigo = self.__tela.listar_membros()
-
-        for membro in self.__grupos[codigo].membros:
-            self.__sistema_controlador.pessoa_controlador.tela.mostrar_pessoa(membro)
+        if codigo in self.__grupos:
+            for membro in self.__grupos[codigo].membros:
+                membro_dict = {
+                    "nome": membro.nome,
+                    "cpf": membro.cpf,
+                    "data_nascimento": membro.data_nascimento,
+                    "telefone": membro.telefone
+                }
+                self.__tela.mostrar_membros(membro_dict)
 
     def abre_tela(self):
         opcoes = {

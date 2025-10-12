@@ -1,8 +1,8 @@
 from model.pagamento import Pagamento
 
 class CartaoCredito(Pagamento):
-    def __init__(self, pessoa, valor, numero_cartao, bandeira):
-        super().__init__(pessoa, valor)
+    def __init__(self, pessoa, grupo, valor, numero_cartao, bandeira):
+        super().__init__(pessoa, grupo, valor)
         self.__numero_cartao = None
         self.__bandeira = None
 

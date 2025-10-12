@@ -53,6 +53,8 @@ class PassagemControlador:
         self.__passagens.append(nova_passagem)
         self.__tela.mostra_mensagem("Passagem emitida com sucesso!")
 
+        return nova_passagem
+
     def alterar_passagem(self):
         self.listar_passagens()
         if not self.__passagens:

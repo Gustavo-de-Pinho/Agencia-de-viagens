@@ -117,8 +117,6 @@ class TransporteControlador:
         self.__tela.mostra_mensagem("Transporte removido.")
 
     # ---------- NAVEGAÇÃO ----------
-    def retornar(self):
-        self.__controlador_sistema.abre_tela()
 
     def abre_tela(self):
         lista_opcoes = {
@@ -130,11 +128,13 @@ class TransporteControlador:
             6: self.alterar_transporte,
             7: self.listar_transportes,
             8: self.excluir_transporte,
-            0: self.retornar
         }
         while True:
             opcao = self.__tela.mostra_opcoes()
             try:
                 lista_opcoes[opcao]()
             except KeyError:
-                self.__tela.mostra_mensagem("Opção inválida.")
+                if opcao == 0:
+                    break
+                else:
+                    self.__tela.mostra_mensagem("Opção inválida.")

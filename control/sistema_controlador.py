@@ -6,9 +6,13 @@ from control.passeio_turistico_controlador import PasseioTuristicoControlador
 from control.cidade_controlador import CidadeControlador
 from control.local_controlador import LocalControlador
 from control.passagem_controlador import PassagemControlador
+from control.pacote_controlador import PacoteControlador
+from view.sistema_tela import SistemaTela
+
 
 class SistemaControlador:
     def __init__(self):
+        self.__tela = SistemaTela()
         self.__grupo_controlador = GrupoControlador(self)
         self.__pagamento_controlador = PagamentoControlador(self)
         self.__pessoa_controlador = PessoaControlador(self)
@@ -17,6 +21,30 @@ class SistemaControlador:
         self.__cidade_controlador = CidadeControlador(self)
         self.__local_controlador = LocalControlador(self)
         self.__passagem_controlador = PassagemControlador(self)
+        self.__pacote_controlador = PacoteControlador(self)
+
+    def abre_tela(self):
+        opcoes = {
+            1: self.__pessoa_controlador.abre_tela,
+            2: self.__grupo_controlador.abre_tela,
+            3: self.__pacote_controlador.abre_tela,
+            4: self.__pagamento_controlador.abre_tela,
+            5: self.local_controlador.abre_tela,
+            6: self.passeio_turistico_controlador.abre_tela,
+            7: self.transporte_controlador.abre_tela
+        }
+
+        continua = True
+
+        while continua:
+            opcao = self.__tela.opcoes()
+
+            if opcao in opcoes:
+                opcoes[opcao]()
+            elif opcao == 8:
+                break
+            else:
+                self.__tela.mostrar_mensagem("CÓDIGO INVÁLIDO")
 
     @property
     def grupo_controlador(self):

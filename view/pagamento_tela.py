@@ -17,11 +17,12 @@ class PagamentoTela:
         
     def pagamento_padrao_dados(self):
         cpf = input("> CPF do Membro: ")
+        grupo = input("> Código do Grupo: ")
         valor = input("> Valor do pagamento: ")
 
         try:
             valor = float(valor)
-            return {"cpf_membro": cpf, "valor": valor}
+            return {"cpf_membro": cpf, "grupo": grupo, "valor": valor}
         except:
             return None
         

@@ -3,24 +3,17 @@ from model.passagem import Passagem
 from model.local import Local
 
 class Pacote:
-    def __init__(self, grupo: Grupo, 
-                 passagens: list[Passagem], 
-                 valor_total: float, 
-                 itinerario: list[Local]):
+    def __init__(self, grupo: Grupo):
         
         self.__grupo = None
-        self.__passagens = None
+        self.__passagens = []
         self.__valor_total = None
-        self.__itinerario = None
+        self.__valor_pago = 0
+        self.__pago = False
+        self.__itinerario = {}
 
         if isinstance(grupo, Grupo):
             self.__grupo = grupo
-        if isinstance(passagens, list):
-            self.__passagens = passagens
-        if isinstance(valor_total, float):
-            self.__valor_total = valor_total
-        if isinstance(itinerario, list):
-            self.__itinerario = itinerario
 
     @property
     def grupo(self):
@@ -57,3 +50,21 @@ class Pacote:
     def itinerario(self, itinerario):
         if isinstance(itinerario, list):
             self.__itinerario = itinerario
+
+    @property
+    def valor_pago(self):
+        return self.__valor_pago
+    
+    @valor_pago.setter
+    def valor_pago(self, valor):
+        if isinstance(valor, float):
+            self.__valor_pago = valor
+    
+    @property
+    def pago(self):
+        return self.__pago
+    
+    @pago.setter
+    def pago(self, pago):
+        if isinstance(pago, bool):
+            self.__pago = pago

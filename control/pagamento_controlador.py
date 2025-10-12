@@ -1,8 +1,8 @@
 from view.pagamento_tela import PagamentoTela
-from model.pagamento import Pagamento
 from model.cartao_credito import CartaoCredito
 from model.pix import Pix
 from model.dinheiro import Dinheiro
+
 
 class PagamentoControlador:
     def __init__(self, sistema_controlador):
@@ -14,12 +14,14 @@ class PagamentoControlador:
         dados = self.__tela.pagamento_pix()
         if dados is not None:
             pessoa = self.__sistema_controlador.pessoa_controlador.pessoa_por_cpf(dados["cpf_membro"])
+            grupo = self.__sistema_controlador.grupo_controlador.grupo_por_codigo(dados["codigo"])
+            pessoa_em_grupo = self.__sistema_controlador.grupo_controlador.pessoa_em_grupo(pessoa, grupo)
 
-            if pessoa is not None:
-                self.__pagamentos.append(Pix(pessoa, dados["valor"], dados["cpf_pagador"]))
+            if pessoa is not None and grupo is not None and pessoa_em_grupo:
+                self.__pagamentos.append(Pix(pessoa, grupo, dados["valor"], dados["cpf_pagador"]))
                 self.__tela.mostrar_mensagem("PAGAMENTO REALIZADO")
             else:
-                self.__tela.mostrar_mensagem("PESSOA NÃO EXISTE")
+                self.__tela.mostrar_mensagem("PESSOA OU GRUPO NÃO RELACIONADOS")
         else:
             self.__tela.mostrar_mensagem("DADOS INVÁLIDOS")
         
@@ -28,12 +30,14 @@ class PagamentoControlador:
 
         if dados is not None:
             pessoa = self.__sistema_controlador.pessoa_controlador.pessoa_por_cpf(dados["cpf_membro"])
+            grupo = self.__sistema_controlador.grupo_controlador.grupo_por_codigo(dados["codigo"])
+            pessoa_em_grupo = self.__sistema_controlador.grupo_controlador.pessoa_em_grupo(pessoa, grupo)
 
-            if pessoa is not None:
-                self.__pagamentos.append(CartaoCredito(pessoa, dados["valor"]))
+            if pessoa is not None and grupo is not None and pessoa_em_grupo:
+                self.__pagamentos.append(CartaoCredito(pessoa, grupo, dados["valor"], dados["bandeira"]))
                 self.__tela.mostrar_mensagem("PAGAMENTO REALIZADO")
             else:
-                self.__tela.mostrar_mensagem("PESSOA NÃO EXISTE")
+                self.__tela.mostrar_mensagem("PESSOA OU GRUPO NÃO RELACIONADOS")
         else:
             self.__tela.mostrar_mensagem("DADOS INVÁLIDOS")
 
@@ -42,12 +46,14 @@ class PagamentoControlador:
 
         if dados is not None:
             pessoa = self.__sistema_controlador.pessoa_controlador.pessoa_por_cpf(dados["cpf_membro"])
+            grupo = self.__sistema_controlador.grupo_controlador.grupo_por_codigo(dados["codigo"])
+            pessoa_em_grupo = self.__sistema_controlador.grupo_controlador.pessoa_em_grupo(pessoa, grupo)
 
-            if pessoa is not None:
-                self.__pagamento.append(Dinheiro(pessoa, dados["valor"]))
+            if pessoa is not None and grupo is not None and pessoa_em_grupo:
+                self.__pagamento.append(Dinheiro(pessoa, grupo, dados["valor"]))
                 self.__tela.mostrar_mensagem("PAGAMENTO REALIZADO")
             else:
-                self.__tela.mostrar_mensagem("PESSOA NÃO EXISTE")
+                self.__tela.mostrar_mensagem("PESSOA OU GRUPO NÃO RELACIONADOS")
         else:
             self.__tela.mostrar_mensagem("DADOS INVÁLIDOS")
 
@@ -59,17 +65,19 @@ class PagamentoControlador:
             if pagamento.pessoa == pessoa:
                 if isinstance(pagamento, Pix):
                     pagamento_dict = {pagamento.pessoa,
+                                    pagamento.grupo,
                                     pagamento.valor,
                                     pagamento.cpf_pagador,
                                     }
                 elif isinstance(pagamento, CartaoCredito):
                     pagamento_dict = {pagamento.pessoa,
+                                    pagamento.grupo,
                                     pagamento.valor,
                                     pagamento.numero_cartao,
                                     pagamento.bandeira_cartao}
                     
                 else:
-                    pagamento_dict = {pagamento.pessoa, pagamento.valor}
+                    pagamento_dict = {pagamento.pessoa, pagamento.grupo, pagamento.valor}
 
                 self.__tela.listar_pagamentos(pagamento_dict)
 
