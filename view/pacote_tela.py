@@ -51,7 +51,6 @@ class PacoteTela:
 
         try:
             codigo = int(codigo)
-            print("RETORNOU INT")
             return codigo
         except:
             print("RETORNOU NONE")
