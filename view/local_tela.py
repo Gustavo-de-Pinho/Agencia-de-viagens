@@ -1,6 +1,6 @@
 class LocalTela:
     def mostra_opcoes(self) -> int:
-        print("\n=========== LOCAIS ===========")
+        print("=========== LOCAIS ===========")
         print("> (1) Cadastrar Local (associar a uma cidade)")
         print("> (2) Listar Locais")
         print("> (3) Adicionar Passeio a um Local")

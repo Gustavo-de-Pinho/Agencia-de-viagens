@@ -16,9 +16,7 @@ class TransporteTela:
         print("=====================")
         print()
         
-        while True:
-            opcao = int(input("Escolha uma opção: "))
-            return opcao
+        return int(input("Escolha uma opção: "))
     
     def mostra_mensagem(self, msg):
         print(msg)
