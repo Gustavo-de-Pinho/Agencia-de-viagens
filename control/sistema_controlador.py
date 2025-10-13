@@ -27,12 +27,12 @@ class SistemaControlador:
         opcoes = {
             1: self.__pessoa_controlador.abre_tela,
             2: self.__grupo_controlador.abre_tela,
-            3: self.__pacote_controlador.abre_tela,
-            4: self.__pagamento_controlador.abre_tela,
-            5: self.__cidade_controlador.abre_tela,
-            6: self.local_controlador.abre_tela,
-            7: self.passeio_turistico_controlador.abre_tela,
-            8: self.transporte_controlador.abre_tela
+            3: self.__cidade_controlador.abre_tela,
+            4: self.passeio_turistico_controlador.abre_tela,
+            5: self.local_controlador.abre_tela,
+            6: self.transporte_controlador.abre_tela,
+            7: self.__pacote_controlador.abre_tela,
+            8: self.__pagamento_controlador.abre_tela,
         }
 
         continua = True
