@@ -5,7 +5,10 @@ class PasseioTuristicoTela:
         print("> (2) Alterar Passeio")
         print("> (3) Listar Passeios")
         print("> (4) Excluir Passeio")
+        print("--------------------------------")
         print("> (0) Retornar")
+        print("================================")
+        print()
         
         while True:
             opcao = int(input("Escolha uma opção: "))

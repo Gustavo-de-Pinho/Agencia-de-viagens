@@ -24,10 +24,3 @@ class Pais:
     @property
     def cidades(self) -> list[Cidade]:
         return self.__cidades
-    
-    def adicionar_cidade(self, cidades: Cidade):
-        if isinstance(cidades, Cidade):
-            self.__cidades.append(cidades)
-            print(f"Passeio '{cidades.nome}' adicionado a {self.nome}.")
-        else:
-            print("Erro: O objeto a ser adicionado não é uma instância de Cidade.")

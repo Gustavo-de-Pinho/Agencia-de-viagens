@@ -7,6 +7,7 @@ class PacoteTela:
         print("> (4) Excluir Pacote")
         print("> (5) Retornar")
         print("====================")
+        print()
 
         opcao = input("Escolha uma opção: ")
 
@@ -90,9 +91,9 @@ class PacoteTela:
             return None
     
     def mostrar_pacote(self, pacote_dict):
-        print(f"> Valor total: {pacote_dict["valor_total"]}")
-        print(f"> Passagens: {pacote_dict["passagens"]}")
-        print(f"> Itinerário: {pacote_dict["itinerario"]}")
+        print(f"> Valor total: {pacote_dict['valor_total']}")
+        print(f"> Passagens: {pacote_dict['passagens']}")
+        print(f"> Itinerário: {pacote_dict['itinerario']}")
 
     def excluir_pacote(self):
         print("====== EXCLUIR PACOTE ======")

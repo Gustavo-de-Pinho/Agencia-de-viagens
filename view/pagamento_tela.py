@@ -6,6 +6,7 @@ class PagamentoTela:
         print("> (3) Visualizar Pagamentos por Pacote")
         print("> (4) Retornar")
         print("======================")
+        print()
 
         opcao = input("Escolha uma opção: ")
 

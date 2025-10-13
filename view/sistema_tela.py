@@ -6,10 +6,12 @@ class SistemaTela:
         print("> (3) PACOTE")
         print("> (4) PAGAMENTO")
         print("> (5) CIDADE/PAÍS")
-        print("> (6) PASSEIO TURÍSTICO")
-        print("> (7) TRANSPORTE")
-        print("> (8) SAIR")
+        print("> (6) LOCAL")
+        print("> (7) PASSEIO TURÍSTICO")
+        print("> (8) TRANSPORTE")
+        print("> (0) SAIR")
         print("=====================")
+        print()
         
         opcao = input("Escolha uma opção: ")
         

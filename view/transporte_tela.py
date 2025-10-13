@@ -1,16 +1,24 @@
 class TransporteTela:
     def mostra_opcoes(self):
-        print("=== TRANSPORTES ===")
+        print("======= TRANSPORTES =======")
+        print("-------- EMPRESA ---------")        
         print("> (1) Cadastrar empresa")
         print("> (2) Alterar empresa")
         print("> (3) Listar empresas")
         print("> (4) Excluir empresa")
+        print("------ TRANSPORTE -------")  
         print("> (5) Cadastrar transporte")
         print("> (6) Alterar transporte")
         print("> (7) Listar transportes")
         print("> (8) Excluir transporte")
+        print("-------------------------")  
         print("> (0) Retornar")
-        return int(input("Escolha: "))
+        print("=====================")
+        print()
+        
+        while True:
+            opcao = int(input("Escolha uma opção: "))
+            return opcao
     
     def mostra_mensagem(self, msg):
         print(msg)

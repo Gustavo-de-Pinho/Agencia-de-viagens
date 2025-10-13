@@ -7,6 +7,7 @@ class PessoaTela:
         print("> (4) Listar pessoas no Sistema")
         print("> (5) Retonar")
         print("======================")
+        print()
 
         opcao = input("Escolha uma opção: ")
 

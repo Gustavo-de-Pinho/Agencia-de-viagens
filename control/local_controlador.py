@@ -74,11 +74,11 @@ class LocalControlador:
             return
         
         # Acessa o controlador de passeios a partir do sistema_controlador
-        self.__sistema_controlador.controlador_passeios.listar_passeios()
+        self.__sistema_controlador.passeio_turistico_controlador.listar_passeios()
         
         nome_passeio = self.__tela.seleciona_passeio()
         # Acessa o controlador de passeios a partir do sistema_controlador
-        passeio = self.__sistema_controlador.controlador_passeios._busca_passeio_por_nome(nome_passeio)
+        passeio = self.__sistema_controlador.passeio_turistico_controlador._busca_passeio_por_nome(nome_passeio)
 
         if not passeio:
             self.__tela.mostra_mensagem("Erro: Passeio não encontrado.")
@@ -88,7 +88,7 @@ class LocalControlador:
             self.__tela.mostra_mensagem(f"O passeio '{passeio.nome}' já está associado a este local.")
             return
 
-        local.adicionar_passeio(passeio)
+        local.passeios.append(passeio)
         self.__tela.mostra_mensagem(f"Passeio '{passeio.nome}' adicionado ao local de {local.cidade.nome}.")
 
     def retornar(self):

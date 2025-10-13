@@ -1,12 +1,14 @@
 class PassagemTela:
     def mostra_opcoes(self) -> int:
-        print("\n========== PASSAGENS ==========")
+        print("========== PASSAGENS ==========")
         print("> (1) Emitir Nova Passagem")
         print("> (2) Alterar Passagem")
         print("> (3) Listar Passagens Emitidas")
         print("> (4) Cancelar Passagem")
         print("-----------------------------")
         print("> (0) Retornar")
+        print("================================")
+        print()
         
         return int(input("Escolha uma opção: "))
     

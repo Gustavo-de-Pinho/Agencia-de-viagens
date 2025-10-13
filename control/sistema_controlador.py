@@ -29,9 +29,10 @@ class SistemaControlador:
             2: self.__grupo_controlador.abre_tela,
             3: self.__pacote_controlador.abre_tela,
             4: self.__pagamento_controlador.abre_tela,
-            5: self.local_controlador.abre_tela,
-            6: self.passeio_turistico_controlador.abre_tela,
-            7: self.transporte_controlador.abre_tela
+            5: self.__cidade_controlador.abre_tela,
+            6: self.local_controlador.abre_tela,
+            7: self.passeio_turistico_controlador.abre_tela,
+            8: self.transporte_controlador.abre_tela
         }
 
         continua = True
@@ -41,7 +42,7 @@ class SistemaControlador:
 
             if opcao in opcoes:
                 opcoes[opcao]()
-            elif opcao == 8:
+            elif opcao == 0:
                 break
             else:
                 self.__tela.mostrar_mensagem("CÓDIGO INVÁLIDO")

@@ -7,6 +7,8 @@ class LocalTela:
         print("> (4) Excluir Local")
         print("----------------------------")
         print("> (0) Retornar")
+        print("===============================")
+        print()
         
         return int(input("Escolha uma opção: "))
     

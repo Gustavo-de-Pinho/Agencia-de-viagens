@@ -1,6 +1,6 @@
 class CidadeTela:
     def mostra_opcoes(self) -> int:
-        print("\n======== LOCALIDADES ========")
+        print("===========================")
         print("---------- PAÍS -----------")
         print("> (1) Cadastrar País")
         print("> (2) Alterar País")
@@ -13,6 +13,8 @@ class CidadeTela:
         print("> (8) Excluir Cidade")
         print("---------------------------")
         print("> (0) Retornar")
+        print("===========================")
+        print()
         
         return int(input("Escolha uma opção: "))
     
