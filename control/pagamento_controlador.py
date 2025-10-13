@@ -96,7 +96,7 @@ class PagamentoControlador:
             if opcao is not None and opcao in opcoes:
                 opcoes[opcao]()
 
-            elif opcao == 4:
+            elif opcao == 0:
                 break
             
             else:
@@ -116,7 +116,7 @@ class PagamentoControlador:
             if opcao is not None and opcao in opcoes:
                 opcoes[opcao]()
 
-            elif opcao == 4:
+            elif opcao == 0:
                 break
 
             else:

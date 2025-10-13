@@ -5,7 +5,7 @@ class PessoaTela:
         print("> (2) Remover Pessoa do Sistema")
         print("> (3) Editar Informações de Pessoa")
         print("> (4) Listar pessoas no Sistema")
-        print("> (5) Retonar")
+        print("> (0) Retonar")
         print("======================")
         print()
 

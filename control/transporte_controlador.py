@@ -130,11 +130,10 @@ class TransporteControlador:
             8: self.excluir_transporte,
         }
         while True:
-            opcao = self.__tela.mostra_opcoes()
-            try:
-                lista_opcoes[opcao]()
-            except KeyError:
-                if opcao == 0:
+                opcao = self.__tela.mostra_opcoes()
+                if opcao in lista_opcoes:
+                    lista_opcoes[opcao]()
+                elif opcao == 0:
                     break
                 else:
-                    self.__tela.mostra_mensagem("Opção inválida.")
+                    self.__tela.mostra_mensagem("OPÇÃO INVÁLIDA")

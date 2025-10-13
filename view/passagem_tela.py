@@ -10,7 +10,10 @@ class PassagemTela:
         print("================================")
         print()
         
-        return int(input("Escolha uma opção: "))
+        try:
+            return int(input("Escolha uma opção: "))
+        except:
+            None
     
     def mostra_mensagem(self, msg: str):
         print(msg)
@@ -19,13 +22,19 @@ class PassagemTela:
         return input("Digite o CPF do passageiro: ")
         
     def seleciona_transporte_por_id(self) -> int:
-        return int(input("Digite o ID (índice) do transporte: "))
+        try:
+            return int(input("Digite o ID (índice) do transporte: "))
+        except:
+            return None
 
     def seleciona_cidade(self, tipo: str) -> str:
         return input(f"Digite o nome da cidade de {tipo}: ")
         
     def pega_valor_passagem(self) -> float:
-        return float(input("Digite o valor da passagem (ex: 250.75): "))
+        try:
+            return float(input("Digite o valor da passagem (ex: 250.75): "))
+        except:
+            return None
 
     def mostra_passagem(self, dados: dict):
         print(f"\n--- PASSAGEM ID: {dados['id']} ---")
@@ -44,14 +53,20 @@ class PassagemTela:
         nova_origem = input(f"Cidade de Origem ({dados_atuais['origem']}): ")
         nova_destino = input(f"Cidade de Destino ({dados_atuais['destino']}): ")
         novo_valor = input(f"Valor ({dados_atuais['valor']}): ")
-
-        return {
-            "cpf": novo_cpf or dados_atuais['cpf'],
-            "id_transporte": int(novo_id_transporte) if novo_id_transporte else dados_atuais['id_transporte'],
-            "origem": nova_origem or dados_atuais['origem'],
-            "destino": nova_destino or dados_atuais['destino'],
-            "valor": float(novo_valor) if novo_valor else dados_atuais['valor'],
-        }
+        
+        try:
+            return {
+                "cpf": novo_cpf or dados_atuais['cpf'],
+                "id_transporte": int(novo_id_transporte) if novo_id_transporte else dados_atuais['id_transporte'],
+                "origem": nova_origem or dados_atuais['origem'],
+                "destino": nova_destino or dados_atuais['destino'],
+                "valor": float(novo_valor) if novo_valor else dados_atuais['valor'],
+            }
+        except:
+            return None
     
     def seleciona_passagem_por_id(self) -> int:
-        return int(input("Digite o ID da passagem que deseja cancelar: "))
+        try:
+            return int(input("Digite o ID da passagem que deseja cancelar: "))
+        except:
+            return None

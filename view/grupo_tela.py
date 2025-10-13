@@ -8,7 +8,7 @@ class GrupoTela:
         print("> (3) Incluir Membro")
         print("> (4) Remover Membro")
         print("> (5) Listar Membros do Grupo")
-        print("> (6) Retonar")
+        print("> (0) Retonar")
         print("=====================")
         print()
 

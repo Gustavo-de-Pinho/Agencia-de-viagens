@@ -10,7 +10,10 @@ class LocalTela:
         print("===============================")
         print()
         
-        return int(input("Escolha uma opção: "))
+        try:
+            return int(input("Escolha uma opção: "))
+        except:
+            return None
     
     def mostra_mensagem(self, msg: str):
         print(msg)

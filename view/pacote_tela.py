@@ -5,7 +5,7 @@ class PacoteTela:
         print("> (2) Editar Pacote")
         print("> (3) Histórico de Pacotes")
         print("> (4) Excluir Pacote")
-        print("> (5) Retornar")
+        print("> (0) Retornar")
         print("====================")
         print()
 
@@ -32,7 +32,7 @@ class PacoteTela:
         print("====== EDITAR PACOTE ======")
         print("> (1) ADICIONAR PASSAGENS")
         print("> (2) CRIAR ITINERÁRIO")
-        print("> (3) RETORNAR")
+        print("> (0) RETORNAR")
         print("===========================")
 
         opcao = input("Escolha uma opção: ")
@@ -50,8 +50,10 @@ class PacoteTela:
 
         try:
             codigo = int(codigo)
+            print("RETORNOU INT")
             return codigo
         except:
+            print("RETORNOU NONE")
             return None
         
     def criar_itinerario(self):
@@ -91,9 +93,13 @@ class PacoteTela:
             return None
     
     def mostrar_pacote(self, pacote_dict):
-        print(f"> Valor total: {pacote_dict['valor_total']}")
-        print(f"> Passagens: {pacote_dict['passagens']}")
-        print(f"> Itinerário: {pacote_dict['itinerario']}")
+        print(f"> Valor total: {pacote_dict["valor_total"]}")
+        print(f"> Passagens:")
+        for passagem in pacote_dict["passagens"]:
+            print(passagem)
+        print(f"> Itinerário:")
+        for dia in pacote_dict["itinerario"]:
+            print(dia)
 
     def excluir_pacote(self):
         print("====== EXCLUIR PACOTE ======")

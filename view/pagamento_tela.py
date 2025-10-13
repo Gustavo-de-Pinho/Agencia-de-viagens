@@ -4,7 +4,7 @@ class PagamentoTela:
         print("> (1) Realizar Pagamento")
         print("> (2) Histórico de Pagamentos")
         print("> (3) Visualizar Pagamentos por Pacote")
-        print("> (4) Retornar")
+        print("> (0) Retornar")
         print("======================")
         print()
 
@@ -32,7 +32,7 @@ class PagamentoTela:
         print("> (1) PIX")
         print("> (2) Cartão de Crédito")
         print("> (3) Dinheiro")
-        print("> (4) Retornar")
+        print("> (0) Retornar")
         print("==================================")
 
         opcao = input("Escolha uma opcao: ")

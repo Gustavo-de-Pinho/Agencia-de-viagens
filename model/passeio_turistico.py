@@ -1,7 +1,7 @@
 class PasseioTuristico:
     def __init__(self, nome: str, preco: float):
         self.__nome = None
-        self.__float = 0
+        self.__preco = 0
 
         if isinstance(nome, str):
             self.__nome = nome

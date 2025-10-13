@@ -12,6 +12,10 @@ class Pais:
             if isinstance(cidades, list):
                 self.__cidades = cidades
         
+    def adicionar_cidade(self, cidade):
+        if isinstance(cidade, Cidade):
+            self.__cidades.append(cidade)
+    
     @property
     def nome(self) -> str:
         return self.__nome

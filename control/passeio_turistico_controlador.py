@@ -75,24 +75,20 @@ class PasseioTuristicoControlador:
         self.__passeios.remove(passeio)
         self.__tela.mostra_mensagem("Passeio removido com sucesso.")
 
-    def retornar(self):
-        self.__controlador_sistema.abre_tela()
-
     def abre_tela(self):
         lista_opcoes = {
             1: self.incluir_passeio,
             2: self.alterar_passeio,
             3: self.listar_passeios,
             4: self.excluir_passeio,
-            0: self.retornar
         }
 
         while True:
-            try:
                 opcao = self.__tela.mostra_opcoes()
-                funcao_escolhida = lista_opcoes[opcao]
-                funcao_escolhida()
-            except KeyError:
-                self.__tela.mostra_mensagem("Opção inválida. Tente novamente.")
-            except ValueError:
-                self.__tela.mostra_mensagem("Entrada inválida. Por favor, digite um número.")
+                if opcao in lista_opcoes:
+                    lista_opcoes[opcao]()
+                elif opcao == 0:
+                    break
+                else:
+                    self.__tela.mostra_mensagem("OPÇÃO INVÁLIDA")
+

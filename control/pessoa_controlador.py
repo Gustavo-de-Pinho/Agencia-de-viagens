@@ -101,7 +101,7 @@ class PessoaControlador:
 
                 opcoes[opcao]()
 
-            elif opcao == 5:
+            elif opcao == 0:
                 break
 
             else:

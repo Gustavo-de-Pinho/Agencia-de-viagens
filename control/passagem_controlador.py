@@ -43,7 +43,10 @@ class PassagemControlador:
             
         # Pegar o Valor
         try:
-            valor = self.__tela.pega_valor_passagem()
+            if valor is not None:
+                valor = self.__tela.pega_valor_passagem()
+            else:
+                self.__tela.mostra_mensagem("Erro: Valor inválido")
         except ValueError:
             self.__tela.mostra_mensagem("Erro: Valor inválido.")
             return
@@ -142,9 +145,6 @@ class PassagemControlador:
                 raise IndexError
         except (ValueError, IndexError):
             self.__tela.mostra_mensagem("Erro: ID de passagem inválido.")
-            
-    def retornar(self):
-        self.__sistema_controlador.abre_tela()
 
     def abre_tela(self):
         lista_opcoes = {
@@ -152,11 +152,12 @@ class PassagemControlador:
             2: self.alterar_passagem,
             3: self.listar_passagens,
             4: self.excluir_passagem,
-            0: self.retornar
         }
         while True:
-            try:
                 opcao = self.__tela.mostra_opcoes()
-                lista_opcoes[opcao]()
-            except (KeyError, ValueError):
-                self.__tela.mostra_mensagem("Opção inválida, digite um número da lista.")
+                if opcao in lista_opcoes:
+                    lista_opcoes[opcao]()
+                elif opcao == 0:
+                    break
+                else:
+                    self.__tela.mostra_mensagem("OPÇÃO INVÁLIDA")

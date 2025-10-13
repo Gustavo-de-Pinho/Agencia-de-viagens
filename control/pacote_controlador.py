@@ -27,13 +27,15 @@ class PacoteControlador:
         codigo = self.__tela.criar_pacote()
         grupo = self.__sistema_controlador.grupo_controlador.grupo_por_codigo(codigo)
 
-        if grupo is not None and self.pacote_pendente(grupo):
+        if grupo is not None and not self.pacote_pendente(grupo):
             self.__pacotes.append(Pacote(grupo))
         else:
             self.__tela.mostrar_mensagem("GRUPO NÃO EXISTE OU JÁ HÁ UM PACOTE PENDENTE ATRELADO AO GRUPO")
 
     def adicionar_passagem(self):
-        pacote = self.pacote_grupo(self.__tela.adicionar_passagem())
+        codigo = self.__tela.adicionar_passagem()
+        grupo = self.__sistema_controlador.grupo_controlador.grupo_por_codigo(codigo)
+        pacote = self.pacote_grupo(grupo)
 
         if pacote is not None:
             passagem = self.__sistema_controlador.passagem_controlador.incluir_passagem()
@@ -43,35 +45,37 @@ class PacoteControlador:
             self.__tela.mostrar_mensagem("PACOTE NÃO EXISTE")
 
     def criar_itinerario(self):
-        grupo = self.__sistema_controlador.grupo_controlador.grupo_por_codigo()
-        dias = self.__tela.criar_itinerario()
+        dados = self.__tela.criar_itinerario()
+        grupo = self.__sistema_controlador.grupo_controlador.grupo_por_codigo(dados["codigo"])
+        dias = dados["dias"]
 
         if dias is not None and grupo is not None:
             pacote = self.pacote_grupo(grupo)
 
             for dia in range(1, dias+1):
-                dados = self.__tela.dia_itinerario(dia)
+                dados2 = self.__tela.dia_itinerario(dia)
+                pacote.itinerario[dia] = {}
 
-                cidade = self.__sistema_controlador.cidade_controlador._busca_pais_por_nome(dados["cidade"])
-                passeio = self.__sistema_controlador.passeio_controlador._busca_passeio_por_nome(dados["passeio"])
+                cidade = self.__sistema_controlador.cidade_controlador._busca_cidade_por_nome(dados2["cidade"])
+                passeio = self.__sistema_controlador.passeio_turistico_controlador._busca_passeio_por_nome(dados2["passeio"])
 
                 if cidade is not None:
                     pacote.itinerario[dia]["cidade"] = cidade
                 if passeio is not None:
                     pacote.itinerario[dia]["passeio"] = passeio
-                    pacote.valor_total += passeio.valor
+                    pacote.valor_total += passeio.preco
 
     def historico_pacotes(self):
         codigo = self.__tela.historico_pacotes()
         
         if codigo is not None:
-            grupo = self.__sistema_controlador.grupo_por_codigo(codigo)
+            grupo = self.__sistema_controlador.grupo_controlador.grupo_por_codigo(codigo)
 
             for pacote in self.__pacotes:
                 if pacote.grupo == grupo:
                     valor_total = pacote.valor_total
                     passagens = []
-                    itinerario = pacote.itinerario
+                    itinerario = []
 
                     for passagem in pacote.passagens:
                         pessoa = passagem.pessoa
@@ -80,13 +84,25 @@ class PacoteControlador:
 
                         passagens.append(f"{pessoa} | {cidade_origem} > {cidade_destino}")
 
+                    for key in pacote.itinerario:
+                        dia = key
+                        cidade = "Não registrado"
+                        passeio = "Não registrado"
+
+                        if "cidade" in pacote.itinerario[key]:
+                            cidade = pacote.itinerario[key]["cidade"].nome
+                        if "passeio" in pacote.itinerario[key]:
+                            passeio = pacote.itinerario[key]["passeio"].nome
+
+                        itinerario.append(f"Dia {dia}: {cidade} | {passeio}")
+
                     self.__tela.mostrar_pacote({"valor_total": valor_total, "passagens": passagens, "itinerario": itinerario})
 
     def excluir_pacote(self):
         codigo = self.__tela.excluir_pacote()
 
         if codigo is not None:
-            grupo = self.__sistema_controlador.grupo_controlador.grupo_por_codigo()
+            grupo = self.__sistema_controlador.grupo_controlador.grupo_por_codigo(codigo)
             pacote = self.pacote_grupo(grupo)
 
             if pacote is not None:
@@ -103,7 +119,7 @@ class PacoteControlador:
 
             if opcao in opcoes:
                 opcoes[opcao]()
-            elif opcao == 3:
+            elif opcao == 0:
                 break
             else:
                 self.__tela.mostrar_mensagem("OPÇÃO INVÁLIDA")
@@ -123,7 +139,7 @@ class PacoteControlador:
 
             if opcao in opcoes:
                 opcoes[opcao]()
-            elif opcao == 5:
+            elif opcao == 0:
                 break
             else:
                 self.__tela.mostrar_mensagem("OPÇÃO INVÁLIDA")

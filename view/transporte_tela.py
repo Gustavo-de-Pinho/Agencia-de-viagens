@@ -16,8 +16,11 @@ class TransporteTela:
         print("=====================")
         print()
         
-        return int(input("Escolha uma opção: "))
-    
+        try:
+            return int(input("Escolha uma opção: "))
+        except:
+            return None
+        
     def mostra_mensagem(self, msg):
         print(msg)
 
@@ -40,4 +43,7 @@ class TransporteTela:
         print(f" ÍNDICE: {idx} | Empresa: {dados['empresa']}  |  CNPJ: {dados['cnpj']}  |  Locomoção: {dados['meio']}")
 
     def seleciona_transporte(self):
-        return int(input("Índice do transporte (número): "))
+        try:
+            return int(input("Índice do transporte (número): "))
+        except: 
+            return None

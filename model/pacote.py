@@ -7,7 +7,7 @@ class Pacote:
         
         self.__grupo = None
         self.__passagens = []
-        self.__valor_total = None
+        self.__valor_total = 0
         self.__valor_pago = 0
         self.__pago = False
         self.__itinerario = {}

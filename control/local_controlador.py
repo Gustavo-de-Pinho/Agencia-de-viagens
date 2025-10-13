@@ -91,20 +91,21 @@ class LocalControlador:
         local.passeios.append(passeio)
         self.__tela.mostra_mensagem(f"Passeio '{passeio.nome}' adicionado ao local de {local.cidade.nome}.")
 
-    def retornar(self):
-        self.__sistema_controlador.abre_tela()
-
     def abre_tela(self):
         lista_opcoes = {
             1: self.incluir_local,
             2: self.listar_locais,
             3: self.adicionar_passeio_a_local,
             4: self.excluir_local,
-            0: self.retornar
         }
         while True:
             try:
                 opcao = self.__tela.mostra_opcoes()
-                lista_opcoes[opcao]()
+                if opcao in lista_opcoes:
+                    lista_opcoes[opcao]()
+                elif opcao == 0:
+                    break
+                else:
+                    self.__tela.mostra_mensagem("OPÇÃO INVÁLIDA")
             except (KeyError, ValueError):
                 self.__tela.mostra_mensagem("Opção inválida, por favor, digite um número da lista.")

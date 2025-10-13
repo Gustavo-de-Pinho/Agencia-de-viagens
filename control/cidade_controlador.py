@@ -150,9 +150,6 @@ class CidadeControlador:
         self.__tela.mostra_mensagem("Cidade removida com sucesso.")
 
     # ---------- NAVEGAÇÃO ----------
-    def retornar(self):
-        #Retorna para a tela principal.
-        self.__controlador_sistema.abre_tela()
 
     def abre_tela(self):
         lista_opcoes = {
@@ -164,11 +161,16 @@ class CidadeControlador:
             6: self.alterar_cidade,
             7: self.listar_cidades,
             8: self.excluir_cidade,
-            0: self.retornar
         }
         while True:
             try:
                 opcao = self.__tela.mostra_opcoes()
-                lista_opcoes[opcao]()
+
+                if opcao in lista_opcoes:
+                    lista_opcoes[opcao]()
+                elif opcao == 0:
+                    break
+                else:
+                    self.__tela.mostra_mensagem("OPÇÃO INVÁLIDA")
             except (KeyError, ValueError):
                 self.__tela.mostra_mensagem("Opção inválida, digite um número da lista.")
