@@ -21,7 +21,6 @@ class PasseioTuristicoControlador:
             return
 
         try:
-            # Garante que o preço seja um float
             preco_float = float(dados["preco"])
             passeio = PasseioTuristico(dados["nome"], preco_float)
             self.__passeios.append(passeio)
