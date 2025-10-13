@@ -20,7 +20,7 @@ class PassagemControlador:
         # Selecionar Transporte
         self.__sistema_controlador.transporte_controlador.listar_transportes()
         id_transporte = self.__tela.seleciona_transporte_por_id()
-        transporte = self.__sistema_controlador.transporte_controlador._busca_transporte_por_id(id_transporte)
+        transporte = self.__sistema_controlador.transporte_controlador.busca_transporte_por_id(id_transporte)
         if not transporte:
             self.__tela.mostra_mensagem("Erro: Transporte não encontrado.")
             return

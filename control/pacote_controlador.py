@@ -39,8 +39,14 @@ class PacoteControlador:
 
         if pacote is not None:
             passagem = self.__sistema_controlador.passagem_controlador.incluir_passagem()
-            pacote.passagens.append(passagem)
-            pacote.valor_total += passagem.valor
+            
+            if passagem is not None:
+                pacote.passagens.append(passagem)
+                pacote.valor_total += passagem.valor
+                self.__tela.mostrar_mensagem("Passagem adicionada com sucesso.")
+            else:
+                self.__tela.mostrar_mensagem("ERRO: Falha ao criar a passagem. Verifique os dados.")
+                
         else:
             self.__tela.mostrar_mensagem("PACOTE NÃO EXISTE")
 

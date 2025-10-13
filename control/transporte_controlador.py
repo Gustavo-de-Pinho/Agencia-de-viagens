@@ -16,11 +16,19 @@ class TransporteControlador:
                 return e
         return None
 
-    def _busca_transporte_por_id(self, id_transp: int) -> Transporte | None:
+    '''def _busca_transporte_por_id(self, id_transp: int) -> Transporte | None:
         for t in self.__transportes:
             if id(t) == id_transp:
                 return t
-        return None
+        return None'''
+    
+    def busca_transporte_por_id(self, indice: int) -> Transporte | None:
+        try:
+            if 0 <= indice < len(self.__transportes):
+                return self.__transportes[indice]
+            return None 
+        except TypeError:
+            return None
 
     # ---------- EMPRESA ----------
     def incluir_empresa(self):

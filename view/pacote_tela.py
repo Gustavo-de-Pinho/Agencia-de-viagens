@@ -72,8 +72,8 @@ class PacoteTela:
     def dia_itinerario(self, dia):
         dia_dict = {}
         print(f"====== DIA {dia} ======")
-        dia_dict["cidade"] = input("> Cidade: ")
-        dia_dict["passeio"] = input("> Passeio (Se houver): ")
+        dia_dict['cidade'] = input('> Cidade: ')
+        dia_dict['passeio'] = input('> Passeio (Se houver): ')
         print("========================")
 
         if not dia_dict["passeio"]:
@@ -93,7 +93,7 @@ class PacoteTela:
             return None
     
     def mostrar_pacote(self, pacote_dict):
-        print(f"> Valor total: {pacote_dict["valor_total"]}")
+        print(f"> Valor total: {pacote_dict['valor_total']}")
         print(f"> Passagens:")
         for passagem in pacote_dict["passagens"]:
             print(passagem)
