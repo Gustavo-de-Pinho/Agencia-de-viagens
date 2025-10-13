@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 
 class Pessoa:
     def __init__(self, nome: str, data_nascimento: str, cpf: str, telefone: str):
@@ -19,9 +19,14 @@ class Pessoa:
     def converter_data(self, data):
         try: 
             data = datetime.strptime(data, "%d-%m-%Y")
+            ano_hoje = date.today().year
+
+            if ano_hoje - data.year >= 18: #se pessoa é maior de idade
+                return data
+            else:
+                return None
         except:
-            data = None
-        return data
+            return None
 
     @property
     def nome(self):

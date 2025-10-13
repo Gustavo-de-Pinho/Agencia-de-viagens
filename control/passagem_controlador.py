@@ -43,10 +43,7 @@ class PassagemControlador:
             
         # Pegar o Valor
         try:
-            if valor is not None:
-                valor = self.__tela.pega_valor_passagem()
-            else:
-                self.__tela.mostra_mensagem("Erro: Valor inválido")
+            valor = self.__tela.pega_valor_passagem()
         except ValueError:
             self.__tela.mostra_mensagem("Erro: Valor inválido.")
             return

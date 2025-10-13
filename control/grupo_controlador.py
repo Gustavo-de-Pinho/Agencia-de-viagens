@@ -14,10 +14,13 @@ class GrupoControlador:
         else:
             return None
     
-    def pessoa_em_grupo(self, grupo, pessoa):
-        if pessoa in grupo:
-            return True
-        else:
+    def pessoa_em_grupo(self, pessoa, grupo):
+        try:
+            if pessoa in grupo.membros:
+                return True
+            else:
+                return False
+        except:
             return False
 
     def criar_grupo(self):
@@ -111,3 +114,7 @@ class GrupoControlador:
 
             else:
                 self.__tela.mostrar_mensagem("OPÇÃO INVÁLIDA")
+
+    @property
+    def grupos(self):
+        return self.__grupos

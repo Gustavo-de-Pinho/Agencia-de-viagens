@@ -20,11 +20,12 @@ class PacoteTela:
     def criar_pacote(self):
         print("====== CRIAR PACOTE ======")
         codigo = input("> Código do grupo: ")
+        data = input("> Data da viagem (DD-MM-AAAA): ")
         print("==========================")
 
         try:
             codigo = int(codigo)
-            return codigo
+            return {"codigo": codigo, "data": data}
         except:
             return None
     
@@ -63,9 +64,12 @@ class PacoteTela:
         print("==============================")
 
         try:
-            dias = int(dias)
-            codigo = int(codigo)
-            return {"codigo": codigo, "dias": dias}
+            if dias is not None and codigo is not None:
+                dias = int(dias)
+                codigo = int(codigo)
+                return {"codigo": codigo, "dias": dias}
+            else:
+                return None
         except: 
             return None
 
@@ -93,13 +97,17 @@ class PacoteTela:
             return None
     
     def mostrar_pacote(self, pacote_dict):
-        print(f"> Valor total: {pacote_dict['valor_total']}")
+        print("============================================")
+        print(f"> Valor total: {pacote_dict["valor_total"]}")
+        print(f"> Valor pago: {pacote_dict["valor_pago"]}")
+        print(f"> Pacote pago? {pacote_dict["pago"]}")
         print(f"> Passagens:")
         for passagem in pacote_dict["passagens"]:
             print(passagem)
         print(f"> Itinerário:")
         for dia in pacote_dict["itinerario"]:
             print(dia)
+        print("============================================")
 
     def excluir_pacote(self):
         print("====== EXCLUIR PACOTE ======")

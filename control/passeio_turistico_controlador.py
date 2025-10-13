@@ -92,3 +92,7 @@ class PasseioTuristicoControlador:
                 else:
                     self.__tela.mostra_mensagem("OPÇÃO INVÁLIDA")
 
+    @property
+    def passeios(self):
+        return self.__passeios
+

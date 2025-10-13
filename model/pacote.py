@@ -1,19 +1,28 @@
 from model.grupo import Grupo
 from model.passagem import Passagem
 from model.local import Local
+from datetime import datetime
 
 class Pacote:
-    def __init__(self, grupo: Grupo):
+    def __init__(self, grupo: Grupo, data: str):
         
         self.__grupo = None
         self.__passagens = []
         self.__valor_total = 0
         self.__valor_pago = 0
         self.__pago = False
+        self.__data_viagem = self.converter_data(data)
         self.__itinerario = {}
 
         if isinstance(grupo, Grupo):
             self.__grupo = grupo
+
+    def converter_data(self, data):
+        try: 
+            data = datetime.strptime(data, "%d-%m-%Y")
+            return data
+        except:
+            return None
 
     @property
     def grupo(self):
@@ -68,3 +77,13 @@ class Pacote:
     def pago(self, pago):
         if isinstance(pago, bool):
             self.__pago = pago
+
+    @property
+    def data_viagem(self):
+        return self.__data_viagem
+    
+    @data_viagem.setter
+    def data_viagem(self, data):
+        self.__data_viagem = self.converter_data(data)
+
+        

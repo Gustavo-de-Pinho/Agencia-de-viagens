@@ -3,7 +3,6 @@ class PagamentoTela:
         print("======= OPÇÕES =======")
         print("> (1) Realizar Pagamento")
         print("> (2) Histórico de Pagamentos")
-        print("> (3) Visualizar Pagamentos por Pacote")
         print("> (0) Retornar")
         print("======================")
         print()
@@ -18,12 +17,13 @@ class PagamentoTela:
         
     def pagamento_padrao_dados(self):
         cpf = input("> CPF do Membro: ")
-        grupo = input("> Código do Grupo: ")
+        codigo = input("> Código do Grupo: ")
         valor = input("> Valor do pagamento: ")
 
         try:
             valor = float(valor)
-            return {"cpf_membro": cpf, "grupo": grupo, "valor": valor}
+            codigo = int(codigo)
+            return {"cpf_membro": cpf, "codigo": codigo, "valor": valor}
         except:
             return None
         
@@ -58,7 +58,7 @@ class PagamentoTela:
         dados = self.pagamento_padrao_dados()
         if dados is not None:
             dados["numero_cartao"] = input("> Número do Cartão: ")
-            dados["bandeira_cartao"] = input("> Bandeira do Cartão: ")
+            dados["bandeira"] = input("> Bandeira do Cartão: ")
         print("=================================")
 
         return dados
@@ -72,12 +72,12 @@ class PagamentoTela:
     
     def pegar_cpf_lista(self):
         print("====== LISTAR PAGAMENTOS ======")
-        cpf = input("> CPF do Membro: ")
+        cpf = input("> CPF: ")
         print("===============================")
 
         return cpf
     
-    def listar_pagamentos(pagamento_dict: dict):
+    def listar_pagamentos(self, pagamento_dict: dict):
         print("========================")
         for key in pagamento_dict:
             print(f"> {pagamento_dict[key]}")

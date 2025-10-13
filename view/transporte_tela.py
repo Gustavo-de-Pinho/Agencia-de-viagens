@@ -13,7 +13,7 @@ class TransporteTela:
         print("> (8) Excluir transporte")
         print("-------------------------")  
         print("> (0) Retornar")
-        print("=====================")
+        print("===========================")
         print()
         
         try:

@@ -23,15 +23,18 @@ class PessoaControlador:
                     cpf_existe = True
 
             if not cpf_existe:
-                self.__pessoas.append(Pessoa(dados["nome"], 
-                                            dados["data_nascimento"], 
-                                            dados["cpf"], 
-                                            dados["telefone"]))
-            
-                self.__tela.mostra_mensagem("PESSOA ADICIONADA")
+                pessoa = Pessoa(dados["nome"], 
+                                dados["data_nascimento"], 
+                                dados["cpf"], 
+                                dados["telefone"])
+                
+                if pessoa.nome is not None and pessoa.data_nascimento is not None and pessoa.cpf is not None and pessoa.telefone is not None:
+                    self.__pessoas.append(pessoa)
+                    self.__tela.mostra_mensagem("PESSOA ADICIONADA")
+                else:
+                    self.__tela.mostra_mensagem("DADOS INVÁLIDOS OU PESSOA É MENOR DE IDADE")
             else:
                 self.__tela.mostra_mensagem("CPF JÁ ESTÁ NO SISTEMA")
-
         else:
             self.__tela.mostra_mensagem("DADOS INVÁLIDOS")
 
@@ -107,6 +110,6 @@ class PessoaControlador:
             else:
                 self.__tela.mostra_mensagem("OPÇÃO INVÁLIDA")
 
-        @property
-        def pessoas(self):
-            return self.__pessoas
+    @property
+    def pessoas(self):
+        return self.__pessoas

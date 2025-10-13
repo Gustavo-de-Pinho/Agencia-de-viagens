@@ -24,13 +24,16 @@ class PacoteControlador:
             return None
 
     def criar_pacote(self):
-        codigo = self.__tela.criar_pacote()
-        grupo = self.__sistema_controlador.grupo_controlador.grupo_por_codigo(codigo)
+        dados = self.__tela.criar_pacote()
+        grupo = self.__sistema_controlador.grupo_controlador.grupo_por_codigo(dados["codigo"])
+        data = dados["data"]
 
-        if grupo is not None and not self.pacote_pendente(grupo):
-            self.__pacotes.append(Pacote(grupo))
+        pacote = Pacote(grupo, data)
+
+        if grupo is not None and not self.pacote_pendente(grupo) and pacote.data_viagem is not None:
+            self.__pacotes.append(pacote)
         else:
-            self.__tela.mostrar_mensagem("GRUPO NÃO EXISTE OU JÁ HÁ UM PACOTE PENDENTE ATRELADO AO GRUPO")
+            self.__tela.mostrar_mensagem("DADOS INVÁLIDOS")
 
     def adicionar_passagem(self):
         codigo = self.__tela.adicionar_passagem()
@@ -52,8 +55,10 @@ class PacoteControlador:
 
     def criar_itinerario(self):
         dados = self.__tela.criar_itinerario()
-        grupo = self.__sistema_controlador.grupo_controlador.grupo_por_codigo(dados["codigo"])
-        dias = dados["dias"]
+
+        if dados is not None:
+            grupo = self.__sistema_controlador.grupo_controlador.grupo_por_codigo(dados["codigo"])
+            dias = dados["dias"]
 
         if dias is not None and grupo is not None:
             pacote = self.pacote_grupo(grupo)
@@ -80,11 +85,13 @@ class PacoteControlador:
             for pacote in self.__pacotes:
                 if pacote.grupo == grupo:
                     valor_total = pacote.valor_total
+                    valor_pago = pacote.valor_pago
+                    pago = pacote.pago
                     passagens = []
                     itinerario = []
 
                     for passagem in pacote.passagens:
-                        pessoa = passagem.pessoa
+                        pessoa = passagem.pessoa.nome
                         cidade_origem = passagem.cidade_origem.nome
                         cidade_destino = passagem.cidade_destino.nome
 
@@ -102,7 +109,7 @@ class PacoteControlador:
 
                         itinerario.append(f"Dia {dia}: {cidade} | {passeio}")
 
-                    self.__tela.mostrar_pacote({"valor_total": valor_total, "passagens": passagens, "itinerario": itinerario})
+                    self.__tela.mostrar_pacote({"valor_total": valor_total, "passagens": passagens, "itinerario": itinerario, "valor_pago": valor_pago, "pago": pago})
 
     def excluir_pacote(self):
         codigo = self.__tela.excluir_pacote()

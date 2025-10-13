@@ -174,3 +174,11 @@ class CidadeControlador:
                     self.__tela.mostra_mensagem("OPÇÃO INVÁLIDA")
             except (KeyError, ValueError):
                 self.__tela.mostra_mensagem("Opção inválida, digite um número da lista.")
+    
+    @property
+    def paises(self):
+        return self.__paises
+    
+    @property
+    def cidades(self):
+        return self.__cidades

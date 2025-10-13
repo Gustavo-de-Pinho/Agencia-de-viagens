@@ -23,6 +23,15 @@ class SistemaControlador:
         self.__passagem_controlador = PassagemControlador(self)
         self.__pacote_controlador = PacoteControlador(self)
 
+    def gerar_relatorio(self):
+        self.__tela.gerar_relatorio({
+            "pessoas": len(self.__pessoa_controlador.pessoas),
+            "grupos": len(self.__grupo_controlador.grupos),
+            "cidades": len(self.__cidade_controlador.cidades),
+            "paises": len(self.__cidade_controlador.paises),
+            "passeios_turisticos": len(self.__passeio_turistico_controlador.passeios)
+        })
+
     def abre_tela(self):
         opcoes = {
             1: self.__pessoa_controlador.abre_tela,
@@ -33,6 +42,7 @@ class SistemaControlador:
             6: self.transporte_controlador.abre_tela,
             7: self.__pacote_controlador.abre_tela,
             8: self.__pagamento_controlador.abre_tela,
+            9: self.gerar_relatorio
         }
 
         continua = True
