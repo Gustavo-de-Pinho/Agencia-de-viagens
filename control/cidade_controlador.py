@@ -1,16 +1,18 @@
 from model.pais import Pais
 from model.cidade import Cidade
 from view.cidade_tela import CidadeTela
+from DAOs.pais_dao import PaisDAO
 
 class CidadeControlador:
     def __init__(self, controlador_sistema):
-        self.__paises = []
+        #self.__paises = []
+        self.__pais_DAO = PaisDAO()
         self.__cidades = []
         self.__controlador_sistema = controlador_sistema
         self.__tela = CidadeTela()
 
     def _busca_pais_por_nome(self, nome: str) -> Pais | None:
-        for p in self.__paises:
+        for p in self.__pais_DAO.get_all():
             if p.nome.lower() == nome.lower():
                 return p
         return None
@@ -29,23 +31,23 @@ class CidadeControlador:
             return
         
         pais = Pais(nome_pais)
-        self.__paises.append(pais)
+        self.__pais_DAO.add(pais)
         self.__tela.mostra_mensagem("País cadastrado com sucesso.")
 
     def listar_paises(self):
-        if not self.__paises:
+        if not self.__pais_DAO:
             self.__tela.mostra_mensagem("Nenhum país cadastrado.")
             return
             
         self.__tela.mostra_mensagem("\n--- LISTA DE PAÍSES ---")
-        for p in self.__paises:
+        for p in self.__pais_DAO.get_all():
             self.__tela.mostra_pais({"nome": p.nome})
         print("-----------------------")
 
 
     def alterar_pais(self):
         self.listar_paises()
-        if not self.__paises: return
+        if not self.__pais_DAO: return
 
         nome_antigo = self.__tela.seleciona_pais()
         pais = self._busca_pais_por_nome(nome_antigo)
@@ -60,7 +62,7 @@ class CidadeControlador:
 
     def excluir_pais(self):
         self.listar_paises()
-        if not self.__paises: return
+        if not self.__pais_DAO: return
         
         nome_pais = self.__tela.seleciona_pais()
         pais = self._busca_pais_por_nome(nome_pais)
@@ -72,13 +74,13 @@ class CidadeControlador:
         # Remove as cidades associadas a este país da lista geral de cidades
         self.__cidades = [c for c in self.__cidades if c not in pais.cidades]
         
-        self.__paises.remove(pais)
+        self.__pais_DAO.remove(pais)
         self.__tela.mostra_mensagem("País e suas cidades foram removidos.")
 
     # ---------- CIDADE ----------
     def incluir_cidade(self):
         #Cadastra uma nova cidade e a associa a um país.
-        if not self.__paises:
+        if not self.__pais_DAO:
             self.__tela.mostra_mensagem("Erro: Cadastre um país antes de adicionar uma cidade.")
             return
         
@@ -106,7 +108,7 @@ class CidadeControlador:
             return
         
         self.__tela.mostra_mensagem("\n--- LISTA DE CIDADES ---")
-        for pais in self.__paises:
+        for pais in self.__pais_DAO.get_all():
             if pais.cidades:
                 for cidade in pais.cidades:
                     self.__tela.mostra_cidade({
@@ -141,7 +143,7 @@ class CidadeControlador:
             self.__tela.mostra_mensagem("Cidade não encontrada.")
             return
         
-        for pais in self.__paises:
+        for pais in self.__pais_DAO.get_all():
             if cidade in pais.cidades:
                 pais.cidades.remove(cidade)
                 break
@@ -177,7 +179,7 @@ class CidadeControlador:
     
     @property
     def paises(self):
-        return self.__paises
+        return self.__pais_DAO.get_all()
     
     @property
     def cidades(self):
