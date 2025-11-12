@@ -74,7 +74,7 @@ class CidadeControlador:
             return
         
         # Remove as cidades associadas a este país da lista geral de cidades
-        self.__cidade_DAO() = [c for c in self.__cidade_DAO.get_all() if c not in pais.cidades]
+        self.__cidade_DAO = [c for c in self.__cidade_DAO.get_all() if c not in pais.cidades]
         
         self.__pais_DAO.remove(pais)
         self.__tela.mostra_mensagem("País e suas cidades foram removidos.")
