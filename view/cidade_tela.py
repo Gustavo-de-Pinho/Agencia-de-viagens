@@ -30,10 +30,15 @@ class CidadeTela:
         return input("Nome: ")
 
     def mostra_pais(self, dados: dict):
-        print(f"  > {dados['nome']}")
+        print(f"  > ID: {dados['id']} - {dados['nome']}")
 
-    def seleciona_pais(self) -> str:
-        return input("Informe o nome do país: ")
+    def seleciona_pais_id(self) -> int:
+        while True:
+            try:
+                id_pais = int(input("Informe o ID do país: "))
+                return id_pais
+            except ValueError:
+                print("ERRO: O ID deve ser um número inteiro.")
 
     # --- Métodos para Cidade ---
     def pega_dados_cidade(self) -> str:
@@ -41,7 +46,12 @@ class CidadeTela:
         return input("Nome: ")
 
     def mostra_cidade(self, dados: dict):
-        print(f"  > Cidade: {dados['nome_cidade']} | País: {dados['nome_pais']}")
+        print(f"  > ID: {dados['id_cidade']} - Cidade: {dados['nome_cidade']} | País: {dados['nome_pais']}")
 
-    def seleciona_cidade(self) -> str:
-        return input("Informe o nome da cidade: ")
+    def seleciona_cidade_id(self) -> int:
+        while True:
+            try:
+                id_cidade = int(input("Informe o ID da cidade: "))
+                return id_cidade
+            except ValueError:
+                print("ERRO: O ID deve ser um número inteiro.")

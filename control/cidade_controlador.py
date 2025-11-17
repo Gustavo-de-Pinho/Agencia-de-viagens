@@ -13,6 +13,12 @@ class CidadeControlador:
         self.__controlador_sistema = controlador_sistema
         self.__tela = CidadeTela()
 
+    def _busca_pais_por_id(self, id: int) -> Pais | None:
+        return self.__pais_DAO.get(id)
+
+    def _busca_cidade_por_id(self, id: int) -> Cidade | None:
+        return self.__cidade_DAO.get(id)
+
     def _busca_pais_por_nome(self, nome: str) -> Pais | None:
         for p in self.__pais_DAO.get_all():
             if p.nome.lower() == nome.lower():
@@ -43,7 +49,7 @@ class CidadeControlador:
             
         self.__tela.mostra_mensagem("\n--- LISTA DE PAÍSES ---")
         for p in self.__pais_DAO.get_all():
-            self.__tela.mostra_pais({"nome": p.nome})
+            self.__tela.mostra_pais({"id": p.id, "nome": p.nome})
         print("-----------------------")
 
 
@@ -51,8 +57,8 @@ class CidadeControlador:
         self.listar_paises()
         if not self.__pais_DAO: return
 
-        nome_antigo = self.__tela.seleciona_pais()
-        pais = self._busca_pais_por_nome(nome_antigo)
+        id_pais = self.__tela.seleciona_pais_id() 
+        pais = self._busca_pais_por_id(id_pais)
 
         if not pais:
             self.__tela.mostra_mensagem("País não encontrado.")
@@ -60,14 +66,15 @@ class CidadeControlador:
             
         nome_novo = self.__tela.pega_dados_pais()
         pais.nome = nome_novo
+        self.__pais_DAO.update(pais)
         self.__tela.mostra_mensagem("País alterado com sucesso.")
 
     def excluir_pais(self):
         self.listar_paises()
         if not self.__pais_DAO: return
         
-        nome_pais = self.__tela.seleciona_pais()
-        pais = self._busca_pais_por_nome(nome_pais)
+        id_pais = self.__tela.seleciona_pais_id()
+        pais = self._busca_pais_por_id(id_pais)
 
         if not pais:
             self.__tela.mostra_mensagem("País não encontrado.")
@@ -75,10 +82,10 @@ class CidadeControlador:
         
         # Remove as cidades associadas a este país da lista geral de cidades
         for cidade in pais.cidades:
-            self.__cidade_DAO.remove(cidade.nome)
+            self.__cidade_DAO.remove(cidade.id)
 
         
-        self.__pais_DAO.remove(pais.nome)
+        self.__pais_DAO.remove(pais.id)
         self.__tela.mostra_mensagem("País e suas cidades foram removidos.")
 
     # ---------- CIDADE ----------
@@ -89,8 +96,8 @@ class CidadeControlador:
             return
         
         self.listar_paises()
-        nome_pais = self.__tela.seleciona_pais()
-        pais = self._busca_pais_por_nome(nome_pais)
+        id_pais = self.__tela.seleciona_pais_id()
+        pais = self._busca_pais_por_id(id_pais)
 
         if not pais:
             self.__tela.mostra_mensagem("País inválido.")
@@ -104,6 +111,7 @@ class CidadeControlador:
         cidade = Cidade(nome_cidade)
         self.__cidade_DAO.add(cidade)
         pais.adicionar_cidade(cidade) # Adiciona a cidade na lista do país
+        self.__pais_DAO.update(pais)
         self.__tela.mostra_mensagem(f"Cidade '{cidade.nome}' cadastrada em {pais.nome}.")
 
     def listar_cidades(self):
@@ -116,6 +124,7 @@ class CidadeControlador:
             if pais.cidades:
                 for cidade in pais.cidades:
                     self.__tela.mostra_cidade({
+                        "id_cidade": cidade.id,
                         "nome_cidade": cidade.nome,
                         "nome_pais": pais.nome
                     })
@@ -125,8 +134,8 @@ class CidadeControlador:
         self.listar_cidades()
         if not self.__cidade_DAO: return
 
-        nome_antigo = self.__tela.seleciona_cidade()
-        cidade = self._busca_cidade_por_nome(nome_antigo)
+        id_cidade_antigo = self.__tela.seleciona_cidade_id()
+        cidade = self._busca_cidade_por_id(id_cidade_antigo)
 
         if not cidade:
             self.__tela.mostra_mensagem("Cidade não encontrada.")
@@ -140,8 +149,8 @@ class CidadeControlador:
         self.listar_cidades()
         if not self.__cidade_DAO: return
 
-        nome_cidade = self.__tela.seleciona_cidade()
-        cidade = self._busca_cidade_por_nome(nome_cidade)
+        id_cidade = self.__tela.seleciona_cidade_id()
+        cidade = self._busca_cidade_por_id(id_cidade)
 
         if not cidade:
             self.__tela.mostra_mensagem("Cidade não encontrada.")
@@ -153,7 +162,7 @@ class CidadeControlador:
                 self.__pais_DAO.update(pais)
                 break
         
-        self.__cidade_DAO.remove(cidade.nome)
+        self.__cidade_DAO.remove(cidade.id)
         self.__tela.mostra_mensagem("Cidade removida com sucesso.")
 
     # ---------- NAVEGAÇÃO ----------

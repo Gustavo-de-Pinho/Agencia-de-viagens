@@ -5,7 +5,8 @@ class DAO(ABC):
     @abstractmethod
     def __init__(self, datasource=''):
         self.__datasource = datasource
-        self.__cache = {} 
+        self.__cache = {}
+        self.__next_id = 0 
 
         try:
             self.__load()
@@ -13,11 +14,22 @@ class DAO(ABC):
             self.__dump()
 
     def __dump(self):
-        pickle.dump(self.__cache, open(self.__datasource, 'wb'))
+        data = {
+            'cache': self.__cache,
+            'next_id': self.__next_id
+        }
+        pickle.dump(data, open(self.__datasource, 'wb'))
 
     def __load(self):
-        self.__cache = pickle.load(open(self.__datasource,'rb'))
+        with open(self.__datasource,'rb') as file:
+            data = pickle.load(file) 
+            self.__cache = data.get('cache', {}) 
+            self.__next_id = data.get('next_id', 0)
 
+    def generate_next_id(self): 
+        new_id = self.__next_id
+        self.__next_id += 1
+        return new_id
     
     def add(self, key, obj):
         self.__cache[key] = obj

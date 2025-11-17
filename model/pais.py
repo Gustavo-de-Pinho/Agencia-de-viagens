@@ -1,8 +1,9 @@
 from model.cidade import Cidade
 
 class Pais:
-    def __init__(self, nome: str, cidades: list[Cidade] = None):
+    def __init__(self, nome: str, id: int = None, cidades: list[Cidade] = None):
         self.__nome = None
+        self.__id = id
         self.__cidades = []
 
         if isinstance(nome, str):
@@ -11,6 +12,15 @@ class Pais:
         if cidades is not None:
             if isinstance(cidades, list):
                 self.__cidades = cidades
+
+        @property
+        def id(self):
+            return self.__id
+
+        @id.setter
+        def id(self, novo_id: int):
+            if isinstance(novo_id, int):
+                self.__id = novo_id
         
     def adicionar_cidade(self, cidade):
         if isinstance(cidade, Cidade):

@@ -8,16 +8,18 @@ class PaisDAO(DAO):
 
     def add(self, pais: Pais):
         if((pais is not None) and isinstance(pais, Pais) and isinstance(pais.nome, str)):
-            super().add(pais.nome, pais)
+            novo_id = super().generate_next_id()
+            pais.id = novo_id
+            super().add(novo_id, pais)
 
     def update(self, pais: Pais):
         if((pais is not None) and isinstance(pais, Pais) and isinstance(pais.nome, str)):
-            super().update(pais.nome, pais)
+            super().update(pais.id, pais)
 
-    def get(self, key:str):
-        if isinstance(key, str):
+    def get(self, key:int):
+        if isinstance(key, int):
             return super().get(key)
 
-    def remove(selfself, key:str):
-        if(isinstance(key, str)):
+    def remove(selfself, key:int):
+        if(isinstance(key, int)):
             return super().remove(key)

@@ -1,8 +1,9 @@
 from model.passeio_turistico import PasseioTuristico
 
 class Cidade:
-    def __init__(self, nome: str, passeios: list[PasseioTuristico] = None):
+    def __init__(self, nome: str, id: int = None, passeios: list[PasseioTuristico] = None):
         self.__nome = None
+        self.__id = id
         self.__passeios = []
 
         if isinstance(nome, str):
@@ -19,6 +20,15 @@ class Cidade:
     def nome(self, nome: str):
         if isinstance(nome, str):
             self.__nome = nome
+
+    @property
+    def id(self):
+        return self.__id
+
+    @id.setter
+    def id(self, novo_id: int):
+        if isinstance(novo_id, int):
+            self.__id = novo_id
 
     @property
     def passeios(self) -> list[PasseioTuristico]:
