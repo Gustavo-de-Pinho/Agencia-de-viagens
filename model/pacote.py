@@ -5,6 +5,7 @@ from datetime import datetime
 class Pacote:
     def __init__(self, grupo: Grupo, data: str):
         
+        self.__id = 0
         self.__grupo = None
         self.__passagens = []
         self.__valor_total = 0
@@ -22,6 +23,15 @@ class Pacote:
             return data
         except:
             return None
+        
+    @property
+    def id(self):
+        return self.__id
+    
+    @id.setter
+    def id(self, id):
+        if isinstance(id, int):
+            self.__id = id
 
     @property
     def grupo(self):

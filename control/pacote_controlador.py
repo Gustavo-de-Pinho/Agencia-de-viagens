@@ -1,23 +1,25 @@
 from model.pacote import Pacote
 from view.pacote_tela import PacoteTela
+from DAOs.pacote_dao import PacoteDAO
+
 
 class PacoteControlador:
     def __init__(self, sistema_controlador):
-        self.__pacotes = []
+        self.__pacote_DAO = PacoteDAO()
         self.__tela = PacoteTela()
         self.__sistema_controlador = sistema_controlador
 
     #Checa se já existe um pacote ainda não pago ligado ao grupo
     def pacote_pendente(self, grupo):
         if grupo is not None:
-            for pacote in self.__pacotes:
+            for pacote in self.__pacote_DAO.get_all():
                 if pacote.grupo == grupo:
                     if not pacote.pago:
                         return True #Já existe um pacote que não foi pago atrelado ao grupo
         return False
 
     def pacote_grupo(self, grupo):
-        for pacote in self.__pacotes:
+        for pacote in self.__pacote_DAO.get_all():
             if pacote.grupo == grupo and not pacote.pago:
                 return pacote
         else:
@@ -27,11 +29,11 @@ class PacoteControlador:
         dados = self.__tela.criar_pacote()
         grupo = self.__sistema_controlador.grupo_controlador.grupo_por_codigo(dados["codigo"])
         data = dados["data"]
-
+    
         pacote = Pacote(grupo, data)
 
         if grupo is not None and not self.pacote_pendente(grupo) and pacote.data_viagem is not None:
-            self.__pacotes.append(pacote)
+            self.__pacote_DAO.add(pacote)
         else:
             self.__tela.mostrar_mensagem("DADOS INVÁLIDOS")
 
@@ -80,10 +82,9 @@ class PacoteControlador:
         codigo = self.__tela.historico_pacotes()
         
         if codigo is not None:
-            grupo = self.__sistema_controlador.grupo_controlador.grupo_por_codigo(codigo)
 
-            for pacote in self.__pacotes:
-                if pacote.grupo == grupo:
+            for pacote in self.__pacote_DAO.get_all():
+                if pacote.grupo.codigo == codigo:
                     valor_total = pacote.valor_total
                     valor_pago = pacote.valor_pago
                     pago = pacote.pago
@@ -119,7 +120,7 @@ class PacoteControlador:
             pacote = self.pacote_grupo(grupo)
 
             if pacote is not None:
-                self.__pacotes.remove(pacote)
+                self.__pacote_DAO.remove(pacote)
 
     def opcoes_editar_pacote(self):
         opcoes = {1: self.adicionar_passagem,
