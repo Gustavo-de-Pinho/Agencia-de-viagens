@@ -2,29 +2,23 @@ from model.empresa import Empresa
 from model.transporte import Transporte
 from view.transporte_tela import TransporteTela
 from DAOs.empresa_dao import EmpresaDAO
+from DAOs.transporte_dao import TransporteDAO
 
 class TransporteControlador:
     def __init__(self, controlador_sistema):
         #self.__empresas = []
         self.__empresa_DAO = EmpresaDAO()               
-        self.__transportes = []            
+        #self.__transportes = []
+        self.__transporte_DAO = TransporteDAO()              
         self.__controlador_sistema = controlador_sistema
         self.__tela = TransporteTela()
 
     def _busca_empresa_por_cnpj(self, cnpj: str) -> Empresa | None:
-        for e in self.__empresa_DAO.get_all():
-            if e.cnpj == cnpj:
-                return e
-        return None
+        return self.__empresa_DAO.get(cnpj)
     
-    def busca_transporte_por_id(self, indice: int) -> Transporte | None:
-        try:
-            if 0 <= indice < len(self.__transportes):
-                return self.__transportes[indice]
-            return None 
-        except TypeError:
-            return None
-
+    def _busca_transporte_por_id(self, id: int) -> Transporte | None:
+        return self.__transporte_DAO.get(id)
+    
     # ---------- EMPRESA ----------
     def incluir_empresa(self):
         dados = self.__tela.pega_dados_empresa()
@@ -62,8 +56,12 @@ class TransporteControlador:
             self.__tela.mostra_mensagem("Empresa não encontrada.")
             return
         
-        self.__transportes = [t for t in self.__transportes if t.empresa != emp]
-        self.__empresa_DAO.remove(emp)
+        lista_transportes = self.__transporte_DAO.get_all()
+        for t in lista_transportes:
+            if t.empresa.cnpj == emp.cnpj:
+                self.__transporte_DAO.remove(t.id)
+                
+        self.__empresa_DAO.remove(emp.cnpj)
         self.__tela.mostra_mensagem("Empresa e seus transportes removidos.")
 
     # ---------- TRANSPORTE ----------
@@ -80,16 +78,20 @@ class TransporteControlador:
             return
         
         meio = self.__tela.pega_meio_locomocao()
-        transp = Transporte(empresa, meio)
-        self.__transportes.append(transp)
+        
+        transp = Transporte(empresa, 0, meio)
+        
+        self.__transporte_DAO.add(transp)
         self.__tela.mostra_mensagem("Transporte cadastrado.")
 
     def listar_transportes(self):
-        if not self.__transportes:
+        if not self.__transporte_DAO:
             self.__tela.mostra_mensagem("Nenhum transporte cadastrado.")
             return
-        for idx, t in enumerate(self.__transportes):
-            self.__tela.mostra_transporte(idx, {
+        
+        for t in self.__transporte_DAO.get_all():
+            self.__tela.mostra_transporte({
+                "id": t.id,
                 "empresa": t.empresa.nome,
                 "cnpj": t.empresa.cnpj,
                 "meio": t.meio_locomocao
@@ -97,26 +99,33 @@ class TransporteControlador:
 
     def alterar_transporte(self):
         self.listar_transportes()
-        idx = self.__tela.seleciona_transporte() 
-        try:
-            transp = self.__transportes[idx]
-        except IndexError:
-            self.__tela.mostra_mensagem("Transporte inválido.")
+        if not self.__transporte_DAO: return
+
+        id_transporte = self.__tela.seleciona_transporte() 
+        transp = self._busca_transporte_por_id(id_transporte)
+        
+        if not transp:
+            self.__tela.mostra_mensagem("Transporte não encontrado.")
             return
         
         novo_meio = self.__tela.pega_meio_locomocao()
         transp.meio_locomocao = novo_meio
+        
+        self.__transporte_DAO.update(transp)
         self.__tela.mostra_mensagem("Transporte alterado.")
 
     def excluir_transporte(self):
         self.listar_transportes()
-        idx = self.__tela.seleciona_transporte()
-        try:
-            transp = self.__transportes[idx]
-        except IndexError:
-            self.__tela.mostra_mensagem("Transporte inválido.")
+        if not self.__transporte_DAO: return
+
+        id_transporte = self.__tela.seleciona_transporte()
+        transp = self._busca_transporte_por_id(id_transporte)
+        
+        if not transp:
+            self.__tela.mostra_mensagem("Transporte não encontrado.")
             return
-        self.__transportes.remove(transp)
+            
+        self.__transporte_DAO.remove(transp.id)
         self.__tela.mostra_mensagem("Transporte removido.")
 
     # ---------- NAVEGAÇÃO ----------
