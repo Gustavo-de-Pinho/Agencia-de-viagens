@@ -4,6 +4,7 @@ from model.grupo import Grupo
 
 class Pagamento:
     def __init__(self, pessoa: Pessoa, grupo: Grupo, valor: float):
+        self.__id = 0
         self.__pessoa = None
         self.__grupo = None
         self.__valor = None

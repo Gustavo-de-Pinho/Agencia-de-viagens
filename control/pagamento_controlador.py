@@ -2,12 +2,13 @@ from view.pagamento_tela import PagamentoTela
 from model.cartao_credito import CartaoCredito
 from model.pix import Pix
 from model.dinheiro import Dinheiro
+from DAOs.pagamento_dao import PagamentoDAO
 from datetime import datetime
 
 
 class PagamentoControlador:
     def __init__(self, sistema_controlador):
-        self.__pagamentos = []
+        self.__pagamento_DAO = PagamentoDAO()
         self.__tela = PagamentoTela()
         self.__sistema_controlador = sistema_controlador
 
@@ -36,27 +37,27 @@ class PagamentoControlador:
         pagamento = self.pagamento_padrao(dados)
         
         if pagamento is not None:
-            self.__pagamentos.append(Pix(pagamento["pessoa"], pagamento["grupo"], dados["valor"], dados["cpf_pagador"]))
+            self.__pagamento_DAO.add(Pix(pagamento["pessoa"], pagamento["grupo"], dados["valor"], dados["cpf_pagador"]))
 
     def pagamento_cartao(self):
         dados = self.__tela.pagamento_cartao()
         pagamento = self.pagamento_padrao(dados)
 
         if pagamento is not None:
-            self.__pagamentos.append(CartaoCredito(pagamento["pessoa"], pagamento["grupo"], dados["valor"], dados["numero_cartao"], dados["bandeira"]))
+            self.__pagamento_DAO.add(CartaoCredito(pagamento["pessoa"], pagamento["grupo"], dados["valor"], dados["numero_cartao"], dados["bandeira"]))
 
     def pagamento_dinheiro(self):
         dados = self.__tela.pagamento_dinheiro()
         pagamento = self.pagamento_padrao(dados)
 
         if pagamento is not None:
-            self.__pagamentos.append(Dinheiro(pagamento["pessoa"], pagamento["grupo"], dados["valor"]))
+            self.__pagamento_DAO.add(Dinheiro(pagamento["pessoa"], pagamento["grupo"], dados["valor"]))
 
     def listar_pagamentos(self):
         cpf = self.__tela.pegar_cpf_lista()
         pessoa = self.__sistema_controlador.pessoa_controlador.pessoa_por_cpf(cpf)
 
-        for pagamento in self.__pagamentos:
+        for pagamento in self.__pagamento_DAO.get_all():
             if pagamento.pessoa == pessoa:
                 if isinstance(pagamento, Pix):
                     pagamento_dict = {"pessoa": pagamento.pessoa.nome,
