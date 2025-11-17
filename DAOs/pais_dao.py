@@ -1,7 +1,6 @@
 from DAOs.dao import DAO
 from model.pais import Pais
 
-#cada entidade terá uma classe dessa, implementação bem simples.
 class PaisDAO(DAO):
     def __init__(self):
         super().__init__('pais.pkl')
