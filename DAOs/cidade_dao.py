@@ -1,6 +1,7 @@
 from DAOs.dao import DAO
 from model.cidade import Cidade
 
+
 class CidadeDAO(DAO):
     def __init__(self):
         super().__init__('cidade.pkl')

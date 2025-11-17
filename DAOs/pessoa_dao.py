@@ -9,8 +9,7 @@ class PessoaDAO(DAO):
 
     def add(self, pessoa):
         if isinstance(pessoa, Pessoa) and isinstance(pessoa.cpf, str):
-            cpf = pessoa.cpf
-            super().add(cpf, pessoa)
+            super().add(pessoa.cpf, pessoa)
 
     def update(self, pessoa):
         if isinstance(pessoa, Pessoa) and isinstance(pessoa.cpf, str):

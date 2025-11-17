@@ -2,6 +2,7 @@ from model.pessoa import Pessoa
 from view.pessoa_tela import PessoaTela
 from DAOs.pessoa_dao import PessoaDAO
 
+
 class PessoaControlador:
     def __init__(self, sistema_controlador):
         self.__pessoa_DAO = PessoaDAO()

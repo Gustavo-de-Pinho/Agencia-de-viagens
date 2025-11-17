@@ -48,7 +48,6 @@ class DAO(ABC):
             return self.__cache[key]
         except KeyError:
             pass #implementar aqui o tratamento da exceção
-
     
     def remove(self, key):
         try:

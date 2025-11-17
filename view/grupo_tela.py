@@ -77,10 +77,12 @@ class GrupoTela:
             return None
         
     def mostrar_membros(self, membro_dict):
+        print("=======================================")
         print(f"> Nome: {membro_dict['nome']}")
         print(f"> CPF: {membro_dict['cpf']}")
         print(f"> Data de Nascimento: {membro_dict['data_nascimento']}")
         print(f"> Telefone: {membro_dict['telefone']}")
+        print("=======================================")
 
     def mostrar_mensagem(self, msg):
         print(msg)
