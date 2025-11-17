@@ -14,19 +14,19 @@ class CidadeControlador:
         self.__controlador_sistema = controlador_sistema
         self.__tela = CidadeTela()
 
-    def _busca_pais_por_id(self, id: int) -> Pais | None:
+    def busca_pais_por_id(self, id: int) -> Pais | None:
         return self.__pais_DAO.get(id)
 
-    def _busca_cidade_por_id(self, id: int) -> Cidade | None:
+    def busca_cidade_por_id(self, id: int) -> Cidade | None:
         return self.__cidade_DAO.get(id)
 
-    def _busca_pais_por_nome(self, nome: str) -> Pais | None:
+    def busca_pais_por_nome(self, nome: str) -> Pais | None:
         for p in self.__pais_DAO.get_all():
             if p.nome.lower() == nome.lower():
                 return p
         return None
 
-    def _busca_cidade_por_nome(self, nome: str) -> Cidade | None:
+    def busca_cidade_por_nome(self, nome: str) -> Cidade | None:
         for c in self.__cidade_DAO.get_all():
             if c.nome.lower() == nome.lower():
                 return c

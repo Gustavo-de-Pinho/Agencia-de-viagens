@@ -13,10 +13,10 @@ class TransporteControlador:
         self.__controlador_sistema = controlador_sistema
         self.__tela = TransporteTela()
 
-    def _busca_empresa_por_cnpj(self, cnpj: str) -> Empresa | None:
+    def busca_empresa_por_cnpj(self, cnpj: str) -> Empresa | None:
         return self.__empresa_DAO.get(cnpj)
     
-    def _busca_transporte_por_id(self, id: int) -> Transporte | None:
+    def busca_transporte_por_id(self, id: int) -> Transporte | None:
         return self.__transporte_DAO.get(id)
     
     # ---------- EMPRESA ----------

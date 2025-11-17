@@ -28,10 +28,10 @@ class PassagemControlador:
         # Selecionar Cidades de Origem e Destino
         self.__sistema_controlador.cidade_controlador.listar_cidades()
         nome_origem = self.__tela.seleciona_cidade("origem")
-        cidade_origem = self.__sistema_controlador.cidade_controlador._busca_cidade_por_nome(nome_origem)
+        cidade_origem = self.__sistema_controlador.cidade_controlador.busca_cidade_por_nome(nome_origem)
         
         nome_destino = self.__tela.seleciona_cidade("destino")
-        cidade_destino = self.__sistema_controlador.cidade_controlador._busca_cidade_por_nome(nome_destino)
+        cidade_destino = self.__sistema_controlador.cidade_controlador.busca_cidade_por_nome(nome_destino)
 
         if not cidade_origem or not cidade_destino:
             self.__tela.mostra_mensagem("Erro: Cidade de origem ou destino não encontrada.")
@@ -79,22 +79,22 @@ class PassagemControlador:
 
         # Validação e atualização dos dados
         # Atualiza Pessoa
-        pessoa = self.__sistema_controlador.pessoa_controlador._busca_pessoa_por_cpf(novos_dados["cpf"])
+        pessoa = self.__sistema_controlador.pessoa_controlador.busca_pessoa_por_cpf(novos_dados["cpf"])
         if not pessoa:
             self.__tela.mostra_mensagem("Erro: Novo CPF não corresponde a uma pessoa cadastrada.")
             return
         passagem_a_alterar.pessoa = pessoa
 
         # Atualiza Transporte
-        transporte = self.__sistema_controlador.transporte_controlador._busca_transporte_por_id(novos_dados["id_transporte"])
+        transporte = self.__sistema_controlador.transporte_controlador.busca_transporte_por_id(novos_dados["id_transporte"])
         if not transporte:
             self.__tela.mostra_mensagem("Erro: Novo ID de transporte não encontrado.")
             return
         passagem_a_alterar.transportes = transporte
 
         # Atualiza Cidades
-        cidade_origem = self.__sistema_controlador.cidade_controlador._busca_cidade_por_nome(novos_dados["origem"])
-        cidade_destino = self.__sistema_controlador.cidade_controlador._busca_cidade_por_nome(novos_dados["destino"])
+        cidade_origem = self.__sistema_controlador.cidade_controlador.busca_cidade_por_nome(novos_dados["origem"])
+        cidade_destino = self.__sistema_controlador.cidade_controlador.busca_cidade_por_nome(novos_dados["destino"])
         if not cidade_origem or not cidade_destino:
             self.__tela.mostra_mensagem("Erro: Nova cidade de origem ou destino não encontrada.")
             return
