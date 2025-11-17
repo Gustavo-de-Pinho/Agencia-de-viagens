@@ -1,14 +1,15 @@
 from model.pessoa import Pessoa
 from view.pessoa_tela import PessoaTela
+from DAOs.pessoa_dao import PessoaDAO
 
 class PessoaControlador:
     def __init__(self, sistema_controlador):
-        self.__pessoas = []
+        self.__pessoa_DAO = PessoaDAO()
         self.__tela = PessoaTela()
         self.__sistema_controlador = sistema_controlador
 
     def pessoa_por_cpf(self, cpf):
-        for pessoa in self.__pessoas:
+        for pessoa in self.__pessoa_DAO.get_all():
             if pessoa.cpf == cpf:
                 return pessoa
         return None 
@@ -18,7 +19,7 @@ class PessoaControlador:
         cpf_existe = False
 
         if dados is not None:
-            for pessoa in self.__pessoas:
+            for pessoa in self.__pessoa_DAO.get_all():
                 if pessoa.cpf == dados["cpf"]:
                     cpf_existe = True
 
@@ -29,7 +30,7 @@ class PessoaControlador:
                                 dados["telefone"])
                 
                 if pessoa.nome is not None and pessoa.data_nascimento is not None and pessoa.cpf is not None and pessoa.telefone is not None:
-                    self.__pessoas.append(pessoa)
+                    self.__pessoa_DAO.add(pessoa)
                     self.__tela.mostra_mensagem("PESSOA ADICIONADA")
                 else:
                     self.__tela.mostra_mensagem("DADOS INVÁLIDOS OU PESSOA É MENOR DE IDADE")
@@ -40,19 +41,9 @@ class PessoaControlador:
 
     def remover_pessoa(self):
         cpf = self.__tela.remove_pessoa()
-        pessoa_encontrada = False
 
         if cpf is not None:
-            for pessoa in self.__pessoas:
-                if pessoa.cpf == cpf:
-                    self.__pessoas.remove(pessoa)
-                    pessoa_encontrada = True
-
-            if pessoa_encontrada:
-                self.__tela.mostra_mensagem("PESSOA REMOVIDA")
-            else:
-                self.__tela.mostra_mensagem("PESSOA NÃO ENCONTRADA NO SISTEMA")
-
+            self.__pessoa_DAO.remove(cpf)
         else:
             self.__tela.mostra_mensagem("DADOS INVÁLIDOS")
 
@@ -61,13 +52,15 @@ class PessoaControlador:
         pessoa_encontrada = False
 
         if dados is not None:
-            for pessoa in self.__pessoas:
+            for pessoa in self.__pessoa_DAO.get_all():
                 if pessoa.cpf == dados["cpf"]:
 
                     pessoa.nome = dados["nome"]
                     pessoa.data_nascimento = dados["data_nascimento"]
                     pessoa.telefone = dados["telefone"]
                     pessoa_encontrada = True
+
+                    self.__pessoa_DAO.update(pessoa)
             
             if pessoa_encontrada:
                 self.__tela.mostra_mensagem("DADOS EDITADOS")
@@ -78,7 +71,7 @@ class PessoaControlador:
             self.__tela.mostra_mensagem("DADOS INVÁLIDOS")
 
     def listar_pessoas(self):
-        for pessoa in self.__pessoas:
+        for pessoa in self.__pessoa_DAO.get_all():
             pessoa_dict = {
                 "nome": pessoa.nome,
                 "data_nascimento": pessoa.data_nascimento,
@@ -112,4 +105,4 @@ class PessoaControlador:
 
     @property
     def pessoas(self):
-        return self.__pessoas
+        return self.__pessoa_DAO.get_all
