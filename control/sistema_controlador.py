@@ -4,7 +4,6 @@ from control.pessoa_controlador import PessoaControlador
 from control.transporte_controlador import TransporteControlador
 from control.passeio_turistico_controlador import PasseioTuristicoControlador
 from control.cidade_controlador import CidadeControlador
-from control.local_controlador import LocalControlador
 from control.passagem_controlador import PassagemControlador
 from control.pacote_controlador import PacoteControlador
 from view.sistema_tela import SistemaTela
@@ -19,7 +18,6 @@ class SistemaControlador:
         self.__transporte_controlador = TransporteControlador(self)
         self.__passeio_turistico_controlador = PasseioTuristicoControlador(self)
         self.__cidade_controlador = CidadeControlador(self)
-        self.__local_controlador = LocalControlador(self)
         self.__passagem_controlador = PassagemControlador(self)
         self.__pacote_controlador = PacoteControlador(self)
 
@@ -38,11 +36,10 @@ class SistemaControlador:
             2: self.__grupo_controlador.abre_tela,
             3: self.__cidade_controlador.abre_tela,
             4: self.passeio_turistico_controlador.abre_tela,
-            5: self.local_controlador.abre_tela,
-            6: self.transporte_controlador.abre_tela,
-            7: self.__pacote_controlador.abre_tela,
-            8: self.__pagamento_controlador.abre_tela,
-            9: self.gerar_relatorio
+            5: self.transporte_controlador.abre_tela,
+            6: self.__pacote_controlador.abre_tela,
+            7: self.__pagamento_controlador.abre_tela,
+            8: self.gerar_relatorio
         }
 
         continua = True

@@ -1,6 +1,5 @@
 from model.grupo import Grupo
 from model.passagem import Passagem
-from model.local import Local
 from datetime import datetime
 
 class Pacote:
