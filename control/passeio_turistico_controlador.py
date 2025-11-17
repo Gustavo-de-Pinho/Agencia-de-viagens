@@ -1,14 +1,19 @@
 from model.passeio_turistico import PasseioTuristico
 from view.passeio_turistico_tela import PasseioTuristicoTela
+from DAOs.passeio_turistico_dao import PasseioTuristicoDAO
 
 class PasseioTuristicoControlador:
     def __init__(self, controlador_sistema):
-        self.__passeios = []
+        #self.__passeios = []
+        self.__passeio_turistico_DAO = PasseioTuristicoDAO()
         self.__controlador_sistema = controlador_sistema
         self.__tela = PasseioTuristicoTela()
 
-    def _busca_passeio_por_nome(self, nome: str) -> PasseioTuristico | None:
-        for p in self.__passeios:
+    def busca_passeio_por_id(self, id: int) -> PasseioTuristico | None:
+        return self.__passeio_turistico_DAO.get(id)
+    
+    def busca_passeio_por_nome(self, nome: str) -> PasseioTuristico | None:
+        for p in self.__passeio_turistico_DAO.get_all():
             if p.nome == nome:
                 return p
         return None
@@ -16,36 +21,36 @@ class PasseioTuristicoControlador:
     def incluir_passeio(self):
         dados = self.__tela.pega_dados_passeio()
         
-        if self._busca_passeio_por_nome(dados["nome"]):
+        if self.busca_passeio_por_nome(dados["nome"]):
             self.__tela.mostra_mensagem("Erro: Já existe um passeio com este nome!")
             return
 
         try:
             preco_float = float(dados["preco"])
-            passeio = PasseioTuristico(dados["nome"], preco_float)
-            self.__passeios.append(passeio)
+            passeio = PasseioTuristico(dados["nome"], 0, preco_float)
+            self.__passeio_turistico_DAO.add(passeio)
             self.__tela.mostra_mensagem("Passeio cadastrado com sucesso!")
         except ValueError:
             self.__tela.mostra_mensagem("Erro: O preço informado é inválido.")
 
     def listar_passeios(self):
-        if not self.__passeios:
+        if not self.__passeio_turistico_DAO:
             self.__tela.mostra_mensagem("Nenhum passeio turístico cadastrado.")
             return
         
         self.__tela.mostra_mensagem("\n--- LISTA DE PASSEIOS ---")
-        for p in self.__passeios:
-            self.__tela.mostra_passeio({"nome": p.nome, "preco": p.preco})
+        for p in self.__passeio_turistico_DAO.get_all():
+            self.__tela.mostra_passeio({"id": p.id, "nome": p.nome, "preco": p.preco})
         print("------------------------")
 
 
     def alterar_passeio(self):
         self.listar_passeios()
-        if not self.__passeios:
+        if not self.__passeio_turistico_DAO:
             return
 
-        nome_passeio = self.__tela.seleciona_passeio()
-        passeio = self._busca_passeio_por_nome(nome_passeio)
+        id_passeio = self.__tela.seleciona_passeio_por_id()
+        passeio = self.busca_passeio_por_id(id_passeio)
 
         if not passeio:
             self.__tela.mostra_mensagem("Passeio não encontrado.")
@@ -56,23 +61,24 @@ class PasseioTuristicoControlador:
         try:
             passeio.nome = novos_dados["nome"]
             passeio.preco = float(novos_dados["preco"])
+            self.__passeio_turistico_DAO.update(passeio)
             self.__tela.mostra_mensagem("Passeio alterado com sucesso.")
         except ValueError:
             self.__tela.mostra_mensagem("Erro: O preço informado é inválido.")
 
     def excluir_passeio(self):
         self.listar_passeios()
-        if not self.__passeios:
+        if not self.__passeio_turistico_DAO:
             return
 
-        nome_passeio = self.__tela.seleciona_passeio()
-        passeio = self._busca_passeio_por_nome(nome_passeio)
+        id_passeio = self.__tela.seleciona_passeio_por_id()
+        passeio = self.busca_passeio_por_id(id_passeio)
 
         if not passeio:
             self.__tela.mostra_mensagem("Passeio não encontrado.")
             return
             
-        self.__passeios.remove(passeio)
+        self.__passeio_turistico_DAO.remove(passeio.id)
         self.__tela.mostra_mensagem("Passeio removido com sucesso.")
 
     def abre_tela(self):
@@ -94,5 +100,5 @@ class PasseioTuristicoControlador:
 
     @property
     def passeios(self):
-        return self.__passeios
+        return self.__passeio_turistico_DAO
 

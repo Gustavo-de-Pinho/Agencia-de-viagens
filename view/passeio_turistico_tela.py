@@ -25,7 +25,10 @@ class PasseioTuristicoTela:
         return {"nome": nome, "preco": preco}
 
     def mostra_passeio(self, dados: dict):
-        print(f"  > Nome: {dados['nome']} | Preço: R$ {dados['preco']:.2f}")
-
-    def seleciona_passeio(self) -> str:
+        print(f"  > ID: {dados['id']} | Nome: {dados['nome']} | Preço: R$ {dados['preco']:.2f}")
+    
+    def seleciona_passeio_por_nome(self) -> str:
         return input("Informe o nome do passeio que deseja selecionar: ")
+
+    def seleciona_passeio_por_id(self) -> int:
+        return int(input("Informe o ID do passeio que deseja selecionar: "))
