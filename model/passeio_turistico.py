@@ -1,6 +1,7 @@
 class PasseioTuristico:
-    def __init__(self, nome: str, preco: float):
+    def __init__(self, nome: str, id: int, preco: float):
         self.__nome = None
+        self.__id = id
         self.__preco = 0
 
         if isinstance(nome, str):
@@ -16,6 +17,15 @@ class PasseioTuristico:
     def nome(self, nome: str):
         if isinstance(nome, str):
             self.__nome = nome
+
+    @property
+    def id(self):
+        return self.__id
+
+    @id.setter
+    def id(self, novo_id: int):
+        if isinstance(novo_id, int):
+            self.__id = novo_id
 
     @property
     def preco(self) -> float:
