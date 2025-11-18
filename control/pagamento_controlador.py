@@ -16,6 +16,7 @@ class PagamentoControlador:
         pessoa = self.__sistema_controlador.pessoa_controlador.pessoa_por_cpf(dados["cpf_membro"])
         grupo = self.__sistema_controlador.grupo_controlador.grupo_por_codigo(dados["codigo"])
         pacote = self.__sistema_controlador.pacote_controlador.pacote_grupo(grupo)
+        pacote_dao = self.__sistema_controlador.pacote_controlador.pacote_DAO
         data_pagamento = datetime.today()
 
         if pacote is not None:
@@ -24,8 +25,10 @@ class PagamentoControlador:
 
                 if pacote.valor_pago >= pacote.valor_total:
                     pacote.pago = True
-
+                
+                pacote_dao.update(pacote)
                 return {"pessoa": pessoa, "grupo": grupo}
+            
             else:
                 self.__tela.mostrar_mensagem("VIAGEM JÁ ACONTECEU")
             return None
@@ -55,10 +58,9 @@ class PagamentoControlador:
 
     def listar_pagamentos(self):
         cpf = self.__tela.pegar_cpf_lista()
-        pessoa = self.__sistema_controlador.pessoa_controlador.pessoa_por_cpf(cpf)
 
         for pagamento in self.__pagamento_DAO.get_all():
-            if pagamento.pessoa == pessoa:
+            if pagamento.pessoa.cpf == cpf:
                 if isinstance(pagamento, Pix):
                     pagamento_dict = {"pessoa": pagamento.pessoa.nome,
                                     "codigo_grupo": pagamento.grupo.codigo,

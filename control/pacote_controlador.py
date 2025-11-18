@@ -171,3 +171,7 @@ class PacoteControlador:
                 break
             else:
                 self.__tela.mostrar_mensagem("OPÇÃO INVÁLIDA")
+
+    @property
+    def pacote_DAO(self):
+        return self.__pacote_DAO
