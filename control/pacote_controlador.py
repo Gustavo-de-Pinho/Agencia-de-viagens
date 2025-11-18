@@ -13,14 +13,14 @@ class PacoteControlador:
     def pacote_pendente(self, grupo):
         if grupo is not None:
             for pacote in self.__pacote_DAO.get_all():
-                if pacote.grupo == grupo:
+                if pacote.grupo.codigo == grupo.codigo:
                     if not pacote.pago:
                         return True #Já existe um pacote que não foi pago atrelado ao grupo
         return False
 
     def pacote_grupo(self, grupo):
         for pacote in self.__pacote_DAO.get_all():
-            if pacote.grupo == grupo and not pacote.pago:
+            if pacote.grupo.codigo == grupo.codigo and not pacote.pago:
                 return pacote
         else:
             return None
@@ -48,6 +48,7 @@ class PacoteControlador:
             if passagem is not None:
                 pacote.passagens.append(passagem)
                 pacote.valor_total += passagem.valor
+                self.__pacote_DAO.update(pacote)
                 self.__tela.mostrar_mensagem("Passagem adicionada com sucesso.")
             else:
                 self.__tela.mostrar_mensagem("ERRO: Falha ao criar a passagem. Verifique os dados.")
@@ -62,21 +63,31 @@ class PacoteControlador:
             grupo = self.__sistema_controlador.grupo_controlador.grupo_por_codigo(dados["codigo"])
             dias = dados["dias"]
 
-        if dias is not None and grupo is not None:
-            pacote = self.pacote_grupo(grupo)
+            if dias is not None and grupo is not None:
+                pacote = self.pacote_grupo(grupo)
 
-            for dia in range(1, dias+1):
-                dados2 = self.__tela.dia_itinerario(dia)
-                pacote.itinerario[dia] = {}
+                if pacote is not None:
+                    for dia in range(1, dias+1):
+                        dados2 = self.__tela.dia_itinerario(dia)
+                
+                        pacote.itinerario[dia] = {} 
 
-                cidade = self.__sistema_controlador.cidade_controlador._busca_cidade_por_nome(dados2["cidade"])
-                passeio = self.__sistema_controlador.passeio_turistico_controlador._busca_passeio_por_nome(dados2["passeio"])
+                        cidade = self.__sistema_controlador.cidade_controlador.busca_cidade_por_nome(dados2["cidade"])
+                        passeio = self.__sistema_controlador.passeio_turistico_controlador.busca_passeio_por_nome(dados2["passeio"])
 
-                if cidade is not None:
-                    pacote.itinerario[dia]["cidade"] = cidade
-                if passeio is not None:
-                    pacote.itinerario[dia]["passeio"] = passeio
-                    pacote.valor_total += passeio.preco
+                        if cidade is not None:
+                            pacote.itinerario[dia]["cidade"] = cidade
+                        if passeio is not None:
+                            pacote.itinerario[dia]["passeio"] = passeio
+                            pacote.valor_total += passeio.preco
+                    
+                    self.__pacote_DAO.update(pacote)
+                    self.__tela.mostrar_mensagem("Itinerário criado com sucesso!")
+                
+                else:
+                    self.__tela.mostrar_mensagem("ERRO: Não foi encontrado um pacote aberto para este grupo.")
+            else:
+                self.__tela.mostrar_mensagem("Grupo não encontrado.")
 
     def historico_pacotes(self):
         codigo = self.__tela.historico_pacotes()
@@ -120,7 +131,10 @@ class PacoteControlador:
             pacote = self.pacote_grupo(grupo)
 
             if pacote is not None:
-                self.__pacote_DAO.remove(pacote)
+                self.__pacote_DAO.remove(pacote.id)
+                self.__tela.mostrar_mensagem("Pacote removido com sucesso!")
+            else:
+                self.__tela.mostrar_mensagem("Pacote não encontrado.")
 
     def opcoes_editar_pacote(self):
         opcoes = {1: self.adicionar_passagem,
