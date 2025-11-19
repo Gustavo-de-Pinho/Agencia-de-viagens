@@ -21,6 +21,9 @@ class PasseioTuristicoControlador:
     def incluir_passeio(self):
         dados = self.__tela.pega_dados_passeio()
         
+        if dados is None:
+            return
+
         if self.busca_passeio_por_nome(dados["nome"]):
             self.__tela.mostra_mensagem("Erro: Já existe um passeio com este nome!")
             return
@@ -34,14 +37,12 @@ class PasseioTuristicoControlador:
             self.__tela.mostra_mensagem("Erro: O preço informado é inválido.")
 
     def listar_passeios(self):
-        if not self.__passeio_turistico_DAO:
+        passeios = self.__passeio_turistico_DAO.get_all()
+        if not passeios:
             self.__tela.mostra_mensagem("Nenhum passeio turístico cadastrado.")
             return
-        
-        self.__tela.mostra_mensagem("\n--- LISTA DE PASSEIOS ---")
-        for p in self.__passeio_turistico_DAO.get_all():
-            self.__tela.mostra_passeio({"id": p.id, "nome": p.nome, "preco": p.preco})
-        print("------------------------")
+
+        self.__tela.mostra_lista_passeios(passeios)
 
 
     def alterar_passeio(self):
@@ -90,7 +91,7 @@ class PasseioTuristicoControlador:
         }
 
         while True:
-                opcao = self.__tela.mostra_opcoes()
+                opcao = self.__tela.tela_opcoes()
                 if opcao in lista_opcoes:
                     lista_opcoes[opcao]()
                 elif opcao == 0:
