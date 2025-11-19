@@ -35,7 +35,7 @@ class CidadeControlador:
     # ---------- PAÍS ----------
     def incluir_pais(self):
         nome_pais = self.__tela.pega_dados_pais()
-        if self._busca_pais_por_nome(nome_pais):
+        if self.busca_pais_por_nome(nome_pais):
             self.__tela.mostra_mensagem("Erro: País já cadastrado!")
             return
         
@@ -44,14 +44,12 @@ class CidadeControlador:
         self.__tela.mostra_mensagem("País cadastrado com sucesso.")
 
     def listar_paises(self):
-        if not self.__pais_DAO:
+        paises = self.__pais_DAO.get_all()
+        if not paises:
             self.__tela.mostra_mensagem("Nenhum país cadastrado.")
             return
-            
-        self.__tela.mostra_mensagem("\n--- LISTA DE PAÍSES ---")
-        for p in self.__pais_DAO.get_all():
-            self.__tela.mostra_pais({"id": p.id, "nome": p.nome})
-        print("-----------------------")
+
+        self.__tela.mostra_lista_paises(paises)
 
 
     def alterar_pais(self):
@@ -59,7 +57,7 @@ class CidadeControlador:
         if not self.__pais_DAO: return
 
         id_pais = self.__tela.seleciona_pais_id() 
-        pais = self._busca_pais_por_id(id_pais)
+        pais = self.busca_pais_por_id(id_pais)
 
         if not pais:
             self.__tela.mostra_mensagem("País não encontrado.")
@@ -75,7 +73,7 @@ class CidadeControlador:
         if not self.__pais_DAO: return
         
         id_pais = self.__tela.seleciona_pais_id()
-        pais = self._busca_pais_por_id(id_pais)
+        pais = self.busca_pais_por_id(id_pais)
 
         if not pais:
             self.__tela.mostra_mensagem("País não encontrado.")
@@ -98,14 +96,14 @@ class CidadeControlador:
         
         self.listar_paises()
         id_pais = self.__tela.seleciona_pais_id()
-        pais = self._busca_pais_por_id(id_pais)
+        pais = self.busca_pais_por_id(id_pais)
 
         if not pais:
             self.__tela.mostra_mensagem("País inválido.")
             return
         
         nome_cidade = self.__tela.pega_dados_cidade()
-        if self._busca_cidade_por_nome(nome_cidade):
+        if self.busca_cidade_por_nome(nome_cidade):
             self.__tela.mostra_mensagem("Erro: Já existe uma cidade com este nome.")
             return
 
@@ -116,27 +114,19 @@ class CidadeControlador:
         self.__tela.mostra_mensagem(f"Cidade '{cidade.nome}' cadastrada em {pais.nome}.")
 
     def listar_cidades(self):
-        if not self.__cidade_DAO:
+        cidades = self.__cidade_DAO.get_all()
+        if not cidades:
             self.__tela.mostra_mensagem("Nenhuma cidade cadastrada.")
             return
-        
-        self.__tela.mostra_mensagem("\n--- LISTA DE CIDADES ---")
-        for pais in self.__pais_DAO.get_all():
-            if pais.cidades:
-                for cidade in pais.cidades:
-                    self.__tela.mostra_cidade({
-                        "id_cidade": cidade.id,
-                        "nome_cidade": cidade.nome,
-                        "nome_pais": pais.nome
-                    })
-        print("------------------------")
+
+        self.__tela.mostra_lista_cidades(cidades)
 
     def alterar_cidade(self):
         self.listar_cidades()
         if not self.__cidade_DAO: return
 
         id_cidade_antigo = self.__tela.seleciona_cidade_id()
-        cidade = self._busca_cidade_por_id(id_cidade_antigo)
+        cidade = self.busca_cidade_por_id(id_cidade_antigo)
 
         if not cidade:
             self.__tela.mostra_mensagem("Cidade não encontrada.")
@@ -151,7 +141,7 @@ class CidadeControlador:
         if not self.__cidade_DAO: return
 
         id_cidade = self.__tela.seleciona_cidade_id()
-        cidade = self._busca_cidade_por_id(id_cidade)
+        cidade = self.busca_cidade_por_id(id_cidade)
 
         if not cidade:
             self.__tela.mostra_mensagem("Cidade não encontrada.")
