@@ -89,9 +89,7 @@ class PessoaControlador:
             4: self.listar_pessoas,
         }
 
-        continua = True
-
-        while continua:
+        while True:
             opcao = self.__tela.mostra_opcoes()
 
             if opcao is not None and opcao in opcoes:
