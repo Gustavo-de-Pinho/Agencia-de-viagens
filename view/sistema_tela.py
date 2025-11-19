@@ -51,6 +51,7 @@ class SistemaTela:
             [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
         ]
         self.__window = sg.Window('Controlador viagens').Layout(layout)
+        
 
 if __name__ == "__main__":
     tela = SistemaTela()

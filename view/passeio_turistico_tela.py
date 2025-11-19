@@ -24,7 +24,7 @@ class PasseioTuristicoTela:
         return opcao
 
     def init_opcoes(self):
-    #sg.theme_previewer()
+        #sg.theme_previewer()
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
             [sg.Text('----- PASSEIO TURÍSTICO ------', font=("Helvica", 25))],
@@ -58,12 +58,6 @@ class PasseioTuristicoTela:
 
         self.close()
         return {"nome": nome, "preco": preco}
-
-    def mostra_passeio(self, dados_passeio):
-        print("------------------")
-        print(f"ID: {dados_passeio['id']}")
-        print(f"NOME: {dados_passeio['nome']}")
-        print(f"PREÇO: {dados_passeio['preco']}")
 
     def mostra_lista_passeios(self, dados_passeios):
         string_todos_passeios = ""
