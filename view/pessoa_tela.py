@@ -150,13 +150,23 @@ class PessoaTela:
         else:
             return None
 
-    def mostrar_pessoa(self, pessoa):
-        print("=======================")
+    def mostrar_pessoas(self, dados_pessoas: list):
+        '''print("=======================")
         print(f"> Nome: {pessoa['nome']}")
         print(f"> Data de Nascimento: {pessoa['data_nascimento']}")
         print(f"> CPF: {pessoa['cpf']}")
         print(f"> Telefone: {pessoa['telefone']}")
-        print("=======================")
+        print("=======================")'''
+
+        string_pessoas = ''
+
+        for pessoa in dados_pessoas:
+            string_pessoas += f"Nome: {pessoa["nome"]}\n"
+            string_pessoas += f"Data de Nascimento: {pessoa["data_nascimento"]}\n"
+            string_pessoas += f"CPF: {pessoa["cpf"]}\n"
+            string_pessoas += f"Telefone: {pessoa["telefone"]}\n\n"
+
+        sg.Popup('LISTA DE PESSOAS\n', string_pessoas)
 
         '''layout = [
             [sg.Text(f"Nome: {pessoa["nome"]}")],

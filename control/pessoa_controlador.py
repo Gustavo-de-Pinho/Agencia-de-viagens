@@ -72,14 +72,18 @@ class PessoaControlador:
             self.__tela.mostra_mensagem("DADOS INVÁLIDOS")
 
     def listar_pessoas(self):
+
+        lista_pessoas = []
+
         for pessoa in self.__pessoa_DAO.get_all():
-            pessoa_dict = {
+            lista_pessoas.append({
                 "nome": pessoa.nome,
                 "data_nascimento": pessoa.data_nascimento,
                 "cpf": pessoa.cpf,
                 "telefone": pessoa.telefone
-            }
-            self.__tela.mostrar_pessoa(pessoa_dict)
+            })
+
+        self.__tela.mostrar_pessoas(lista_pessoas)
 
     def abre_tela(self):
         opcoes = {
