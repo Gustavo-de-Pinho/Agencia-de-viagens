@@ -23,6 +23,8 @@ class GrupoControlador:
             return False
 
     def criar_grupo(self):
+        self.listar_grupos()
+        
         codigo = self.__tela.criar_grupo()
         grupo_existe = False
         
@@ -37,12 +39,13 @@ class GrupoControlador:
             self.__tela.mostrar_mensagem("GRUPO JA EXISTE OU CÓDIGO NÃO NUMÉRICO!")
 
     def excluir_grupo(self):
+        self.listar_grupos()
+
         codigo = self.__tela.excluir_grupo()
         codigo_existe = False
 
         grupo = self.__grupo_DAO.get(codigo)
-        print(grupo)
-        print(type(grupo))
+        
 
         if grupo is not None and grupo in self.__grupo_DAO.get_all():
                     codigo_existe = True
@@ -54,6 +57,8 @@ class GrupoControlador:
             self.__tela.mostrar_mensagem("GRUPO NÃO EXISTE!")
 
     def adicionar_membro(self):
+        self.__sistema_controlador.pessoa_controlador.listar_pessoas()
+        
         dados = self.__tela.adicionar_membro()
 
         grupo = self.__grupo_DAO.get(dados["codigo"])
@@ -68,6 +73,8 @@ class GrupoControlador:
         self.__grupo_DAO.update(grupo)
 
     def remover_membro(self):
+        self.listar_membros()
+
         dados = self.__tela.remover_membro()
         pessoa_existe = False
         grupo_existe = False
@@ -91,18 +98,31 @@ class GrupoControlador:
         self.__grupo_DAO.update(grupo)
 
     def listar_membros(self):
+        self.listar_grupos()
+        
         codigo = self.__tela.listar_membros()
         grupo = self.__grupo_DAO.get(codigo)
 
+        dados_membros = []
+
         if grupo is not None:
             for membro in grupo.membros:
-                membro_dict = {
+                dados_membros.append({
                     "nome": membro.nome,
                     "cpf": membro.cpf,
                     "data_nascimento": membro.data_nascimento,
                     "telefone": membro.telefone
-                }
-                self.__tela.mostrar_membros(membro_dict)
+                })
+            self.__tela.mostrar_membros(dados_membros)
+
+    def listar_grupos(self):
+        
+        dados_grupos = []
+
+        for grupo in self.__grupo_DAO.get_all():
+            dados_grupos.append({"codigo": grupo.codigo})
+
+        self.__tela.mostrar_grupos(dados_grupos)
 
     def abre_tela(self):
         opcoes = {

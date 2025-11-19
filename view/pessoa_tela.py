@@ -38,7 +38,7 @@ class PessoaTela:
         while True:
             event, values = self.__window_menu.read()
 
-            if event == 0:
+            if event == 0 or event == sg.WIN_CLOSED:
                 self.__window_menu.close()
                 self.__window_menu = None
 
@@ -158,7 +158,7 @@ class PessoaTela:
         print(f"> Telefone: {pessoa['telefone']}")
         print("=======================")'''
 
-        string_pessoas = ''
+        string_pessoas = ""
 
         for pessoa in dados_pessoas:
             string_pessoas += f"Nome: {pessoa["nome"]}\n"
@@ -166,7 +166,7 @@ class PessoaTela:
             string_pessoas += f"CPF: {pessoa["cpf"]}\n"
             string_pessoas += f"Telefone: {pessoa["telefone"]}\n\n"
 
-        sg.Popup('LISTA DE PESSOAS\n', string_pessoas)
+        sg.Popup("LISTA DE PESSOAS\n", string_pessoas, non_blocking = True)
 
         '''layout = [
             [sg.Text(f"Nome: {pessoa["nome"]}")],
