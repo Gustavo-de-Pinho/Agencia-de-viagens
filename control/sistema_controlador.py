@@ -45,7 +45,7 @@ class SistemaControlador:
         continua = True
 
         while continua:
-            opcao = self.__tela.tela_opcoes()
+            opcao = self.__tela.mostra_opcoes()
 
             if opcao in opcoes:
                 opcoes[opcao]()

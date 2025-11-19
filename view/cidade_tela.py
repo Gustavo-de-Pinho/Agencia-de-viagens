@@ -2,7 +2,7 @@ import FreeSimpleGUI as sg
 
 class CidadeTela:
     def __init__(self):
-        sg.theme('Reddit')
+        self.__window_menu = None
 
     def mostra_opcoes(self) -> int:
         layout = [

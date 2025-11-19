@@ -4,39 +4,25 @@ class PasseioTuristicoTela:
     def __init__(self):
         self.__window = None
 
-    def tela_opcoes(self):
-        self.init_opcoes()
-        button, values = self.__window.read()
-        if values['1']:
-            opcao = 1
-        if values['2']:
-            opcao = 2
-        if values['3']:
-            opcao = 3
-        if values['4']:
-            opcao = 4
-        # cobre os casos de Retornar, fechar janela, ou clicar cancelar
-        #Isso faz com que retornemos a tela do sistema caso qualquer uma dessas coisas aconteca
-        if values['0'] or button in (None, 'Cancelar'):
-            opcao = 0
-
-        self.close()
-        return opcao
-
-    def init_opcoes(self):
-        #sg.theme_previewer()
-        sg.ChangeLookAndFeel('DarkTeal4')
+    def mostra_opcoes(self) -> int:
         layout = [
-            [sg.Text('----- PASSEIO TURÍSTICO ------', font=("Helvica", 25))],
-            [sg.Text('Escolha sua opção', font=("Helvica", 15))],
-            [sg.Radio('Incluir Passeio', "RD1", key='1')],
-            [sg.Radio('Alterar Passeio', "RD1", key='2')],
-            [sg.Radio('Listar Passeios', "RD1", key='3')],
-            [sg.Radio('Excluir Passeio', "RD1", key='4')],
-            [sg.Radio('Retornar', "RD1", key='0')],
-            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
-            ]
-        self.__window = sg.Window('Controlador de viagens').Layout(layout)
+            [sg.Text('------ GERENCIAMENTO ------', font=('Helvetica', 12, 'bold'), justification='center', expand_x=True)],
+            [sg.Text('Passeio Turístico', font=('Helvetica', 10, 'bold'))],
+            [sg.Button('Cadastrar Passeio', key='1', size=(15,1)), sg.Button('Alterar Passeio', key='2', size=(15,1))],
+            [sg.Button('Listar Passeio', key='3', size=(15,1)), sg.Button('Excluir Passeio', key='4', size=(15,1))],
+            [sg.HorizontalSeparator()],
+            [sg.Button('Sair', key='0', button_color=('white', 'firebrick3'), size=(32,1))]
+        ]
+
+        window = sg.Window('Menu Principal', layout, element_justification='c')
+
+        event, values = window.read()
+        window.close()
+
+        if event in (sg.WIN_CLOSED, '0'):
+            return 0
+
+        return int(event)
 
     def pega_dados_passeio(self):
         sg.ChangeLookAndFeel('DarkTeal4')

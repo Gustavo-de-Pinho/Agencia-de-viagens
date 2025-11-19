@@ -91,7 +91,7 @@ class PasseioTuristicoControlador:
         }
 
         while True:
-                opcao = self.__tela.tela_opcoes()
+                opcao = self.__tela.mostra_opcoes()
                 if opcao in lista_opcoes:
                     lista_opcoes[opcao]()
                 elif opcao == 0:
