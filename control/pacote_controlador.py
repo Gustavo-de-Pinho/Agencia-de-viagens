@@ -94,6 +94,8 @@ class PacoteControlador:
         
         if codigo is not None:
 
+            dados_pacotes = []
+
             for pacote in self.__pacote_DAO.get_all():
                 if pacote.grupo.codigo == codigo:
                     valor_total = pacote.valor_total
@@ -121,7 +123,10 @@ class PacoteControlador:
 
                         itinerario.append(f"Dia {dia}: {cidade} | {passeio}")
 
-                    self.__tela.mostrar_pacote({"valor_total": valor_total, "passagens": passagens, "itinerario": itinerario, "valor_pago": valor_pago, "pago": pago})
+                    
+                    dados_pacotes.append({"valor_total": valor_total, "passagens": passagens, "itinerario": itinerario, "valor_pago": valor_pago, "pago": pago})
+
+            self.__tela.mostrar_pacotes(dados_pacotes)
 
     def excluir_pacote(self):
         codigo = self.__tela.excluir_pacote()

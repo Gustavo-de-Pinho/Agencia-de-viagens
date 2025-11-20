@@ -156,7 +156,7 @@ class PacoteTela:
         layout = [
             [sg.Push(), sg.Text("CRIAR ITINERÁRIO"), sg.Push()],
             [sg.Text("Código do grupo"), sg.InputText(key="codigo")],
-            [sg.Text("Dias de viagem"), sg.InputText(key="dias")]
+            [sg.Text("Dias de viagem"), sg.InputText(key="dias")],
             [sg.Submit()]
         ]
 
@@ -173,7 +173,7 @@ class PacoteTela:
             return None
 
     def dia_itinerario(self, dia):
-        dia_dict = {}
+        '''dia_dict = {}
         print(f"====== DIA {dia} ======")
         dia_dict['cidade'] = input('> Cidade: ')
         dia_dict['passeio'] = input('> Passeio (Se houver): ')
@@ -182,14 +182,27 @@ class PacoteTela:
         if not dia_dict["passeio"]:
             dia_dict["passeio"] = ""
 
-        return dia_dict
+        return dia_dict'''
 
-        '''layout = [
-            [sg.Push(), sg.Text(f"DIA {dia}")]
-        ]'''
+        layout = [
+            [sg.Push(), sg.Text(f"DIA {dia}"), sg.Push()],
+            [sg.Text("Cidade"), sg.InputText(key="cidade")],
+            [sg.Text("Passeio (se houver)"), sg.InputText(key="passeio")],
+            [sg.Submit()]
+        ]
+
+        window = sg.Window("Pacote", layout=layout)
+
+        botao, dados_dict = window.read()
+        window.close()
+
+        if dados_dict["passeio"] is None:
+            dados_dict["passeio"] = ""
+        
+        return dados_dict
     
     def historico_pacotes(self):
-        print("====== HISTÓRICO DE PACOTES ======")
+        '''print("====== HISTÓRICO DE PACOTES ======")
         codigo = input("> Código do grupo: ")
         print("==================================")
 
@@ -197,10 +210,27 @@ class PacoteTela:
             codigo = int(codigo)
             return codigo
         except:
+            return None'''
+        
+        layout = [
+            [sg.Push(), sg.Text("HISTÓRICO DE PACOTES"), sg.Push()],
+            [sg.Text("Código do grupo"), sg.InputText(key="codigo")],
+            [sg.Submit()]        
+        ]
+
+        window = sg.Window("Pacote", layout=layout)
+
+        botao, dados_dict = window.read()
+        window.close()
+
+        try:
+            dados_dict["codigo"] = int(dados_dict["codigo"])
+            return dados_dict["codigo"]
+        except:
             return None
     
-    def mostrar_pacote(self, pacote_dict):
-        print("============================================")
+    def mostrar_pacotes(self, dados_pacotes: list):
+        '''print("============================================")
         print(f"> Valor total: {pacote_dict["valor_total"]}")
         print(f"> Valor pago: {pacote_dict["valor_pago"]}")
         print(f"> Pacote pago? {pacote_dict["pago"]}")
@@ -210,10 +240,29 @@ class PacoteTela:
         print(f"> Itinerário:")
         for dia in pacote_dict["itinerario"]:
             print(dia)
-        print("============================================")
+        print("============================================")'''
+
+        pacotes_string = ""
+
+        for pacote in dados_pacotes:
+            pacotes_string += f"Valor total: {pacote["valor_total"]}\n"
+            pacotes_string += f"Valor pago: {pacote["valor_pago"]}\n"
+            pacotes_string += f"Pacote pago? {pacote["pago"]}\n"
+    
+            pacotes_string += f"Passagens: \n"
+            for passagem in pacote["passagens"]:
+                pacotes_string += f"{passagem}\n"
+            
+            pacotes_string += "Itinerário: \n"
+            for dia in pacote["itinerario"]:
+                pacotes_string += f"{dia}\n"
+
+            pacotes_string += "\n"
+
+        sg.Popup("HISTÓRICO DE PACOTES\n", pacotes_string)
 
     def excluir_pacote(self):
-        print("====== EXCLUIR PACOTE ======")
+        '''print("====== EXCLUIR PACOTE ======")
         codigo = input("> Código do grupo: ")
         print("============================")
 
@@ -221,7 +270,24 @@ class PacoteTela:
             codigo = int(codigo)
             return codigo
         except:
+            return None'''
+        
+        layout = [
+            [sg.Push(), sg.Text("EXCLUIR PACOTE"), sg.Push()],
+            [sg.Text("Código do grupo"), sg.InputText(key="codigo")],
+            [sg.Submit()]
+        ]
+
+        window = sg.Window("Pacote", layout=layout)
+
+        botao, dados_dict = window.read()
+        window.close()
+
+        try:
+            dados_dict["codigo"] = int(dados_dict["codigo"])
+            return dados_dict["codigo"]
+        except:
             return None
 
     def mostrar_mensagem(self, msg):
-        print(msg)
+        sg.Popup(msg)
