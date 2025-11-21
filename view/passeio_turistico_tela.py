@@ -51,7 +51,7 @@ class PasseioTuristicoTela:
             string_todos_passeios += "NOME: " + str(dado.nome) + '\n'
             string_todos_passeios += "PREÇO: " + str(dado.preco) + '\n\n'
 
-        sg.Popup('-------- LISTA DE PASSEIOS ----------', string_todos_passeios)
+        sg.Popup('-------- LISTA DE PASSEIOS ----------', string_todos_passeios, non_blocking = True)
 
     def seleciona_passeio_por_id(self):
         sg.ChangeLookAndFeel('DarkTeal4')

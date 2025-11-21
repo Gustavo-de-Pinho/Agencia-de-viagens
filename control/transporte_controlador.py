@@ -22,7 +22,7 @@ class TransporteControlador:
     # ---------- EMPRESA ----------
     def incluir_empresa(self):
         dados = self.__tela.pega_dados_empresa()
-        if self._busca_empresa_por_cnpj(dados["cnpj"]):
+        if self.busca_empresa_por_cnpj(dados["cnpj"]):
             self.__tela.mostra_mensagem("Empresa já cadastrada!")
             return
         empresa = Empresa(dados["nome"], dados["cnpj"])
@@ -30,16 +30,17 @@ class TransporteControlador:
         self.__tela.mostra_mensagem("Empresa cadastrada com sucesso.")
 
     def listar_empresas(self):
-        if not self.__empresa_DAO:
-            self.__tela.mostra_mensagem("Nenhuma empresa cadastrada.")
+        empresas = self.__empresa_DAO.get_all()
+        if not empresas:
+            self.__tela.mostra_mensagem("Nenhuma empresa cadastrado.")
             return
-        for e in self.__empresa_DAO.get_all():
-            self.__tela.mostra_empresa({"nome": e.nome, "cnpj": e.cnpj})
+
+        self.__tela.mostra_lista_empresas(empresas)
 
     def alterar_empresa(self):
         self.listar_empresas()
         cnpj = self.__tela.seleciona_empresa()
-        emp = self._busca_empresa_por_cnpj(cnpj)
+        emp = self.busca_empresa_por_cnpj(cnpj)
         if not emp:
             self.__tela.mostra_mensagem("Empresa não encontrada.")
             return
@@ -51,7 +52,7 @@ class TransporteControlador:
     def excluir_empresa(self):
         self.listar_empresas()
         cnpj = self.__tela.seleciona_empresa()
-        emp = self._busca_empresa_por_cnpj(cnpj)
+        emp = self.busca_empresa_por_cnpj(cnpj)
         if not emp:
             self.__tela.mostra_mensagem("Empresa não encontrada.")
             return
@@ -72,7 +73,7 @@ class TransporteControlador:
         
         self.listar_empresas()
         cnpj = self.__tela.seleciona_empresa()
-        empresa = self._busca_empresa_por_cnpj(cnpj)
+        empresa = self.busca_empresa_por_cnpj(cnpj)
         if not empresa:
             self.__tela.mostra_mensagem("Empresa inválida.")
             return
@@ -85,24 +86,19 @@ class TransporteControlador:
         self.__tela.mostra_mensagem("Transporte cadastrado.")
 
     def listar_transportes(self):
-        if not self.__transporte_DAO:
+        transportes = self.__transporte_DAO.get_all()
+        if not transportes:
             self.__tela.mostra_mensagem("Nenhum transporte cadastrado.")
             return
-        
-        for t in self.__transporte_DAO.get_all():
-            self.__tela.mostra_transporte({
-                "id": t.id,
-                "empresa": t.empresa.nome,
-                "cnpj": t.empresa.cnpj,
-                "meio": t.meio_locomocao
-            })
+
+        self.__tela.mostra_lista_transporte(transportes)
 
     def alterar_transporte(self):
         self.listar_transportes()
         if not self.__transporte_DAO: return
 
         id_transporte = self.__tela.seleciona_transporte() 
-        transp = self._busca_transporte_por_id(id_transporte)
+        transp = self.busca_transporte_por_id(id_transporte)
         
         if not transp:
             self.__tela.mostra_mensagem("Transporte não encontrado.")
@@ -119,7 +115,7 @@ class TransporteControlador:
         if not self.__transporte_DAO: return
 
         id_transporte = self.__tela.seleciona_transporte()
-        transp = self._busca_transporte_por_id(id_transporte)
+        transp = self.busca_transporte_por_id(id_transporte)
         
         if not transp:
             self.__tela.mostra_mensagem("Transporte não encontrado.")

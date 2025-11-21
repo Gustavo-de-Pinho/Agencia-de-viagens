@@ -57,7 +57,7 @@ class CidadeTela:
             string_todos_paises += "ID: " + str(dado.id) + '\n'
             string_todos_paises += "NOME: " + str(dado.nome) + '\n\n'
 
-        sg.Popup('-------- LISTA DE PAISES ----------', string_todos_paises)
+        sg.Popup('-------- LISTA DE PAISES ----------', string_todos_paises, non_blocking = True)
 
     def seleciona_pais_id(self) -> int:
         while True:
@@ -104,7 +104,7 @@ class CidadeTela:
             string_todas_cidades += "ID: " + str(dado.id) + '\n'
             string_todas_cidades += "NOME: " + str(dado.nome) + '\n\n'
 
-        sg.Popup('-------- LISTA DE CIDADES ----------', string_todas_cidades)
+        sg.Popup('-------- LISTA DE CIDADES ----------', string_todas_cidades, non_blocking = True)
 
     def seleciona_cidade_id(self) -> int:
         while True:
