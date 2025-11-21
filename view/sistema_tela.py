@@ -3,6 +3,10 @@ import FreeSimpleGUI as sg
 class SistemaTela:
     def __init__(self):
         self.__window = None
+        sg.set_options(
+            font=("Helvetica", 10, "bold"), 
+            button_element_size=(20, 1)
+            )
     
     def mostra_opcoes(self) -> int:
         layout = [

@@ -25,7 +25,6 @@ class PasseioTuristicoTela:
         return int(event)
 
     def pega_dados_passeio(self):
-        sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
             [sg.Text('-------- DADOS PASSEIO ----------', font=("Helvica", 25))],
             [sg.Text('Nome:', size=(15, 1)), sg.InputText('', key='nome')],
