@@ -52,9 +52,9 @@ class PacoteTela:
 
         layout = [
             [sg.Push(), sg.Text("------ EDITAR PACOTE ------"), sg.Push()],
-            [sg.Button("Adicionar Passagens", key=1, size=(15, 1))],
-            [sg.Button("Criar Itinerário", key=2, size=(15, 1))],
-            [sg.Cancel("Retornar", key=0)]
+            [sg.Push(), sg.Button("Adicionar Passagens", key=1, size=(20, 1)), sg.Push()],
+            [sg.Push(), sg.Button("Criar Itinerário", key=2, size=(20, 1)), sg.Push()],
+            [sg.Push(), sg.Cancel("Retornar", key=0, button_color=("white", "firebrick3"), size=(15, 1)), sg.Push()]
         ]
 
         if self.__window_edicao_menu is None:
@@ -65,7 +65,7 @@ class PacoteTela:
 
             if event == 0 or event == sg.WIN_CLOSED:
                 self.__window_edicao_menu.close()
-                self.__window_menu = None
+                self.__window_edicao_menu = None
 
             return event
 

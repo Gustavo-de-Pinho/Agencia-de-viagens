@@ -5,8 +5,8 @@ class SistemaTela:
         self.__window = None
         sg.set_options(
             font=("Helvetica", 10, "bold"), 
-            button_element_size=(20, 1)
             )
+        sg.theme("SandyBeach")
     
     def mostra_opcoes(self) -> int:
         layout = [
