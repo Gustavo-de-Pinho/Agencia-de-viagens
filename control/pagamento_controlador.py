@@ -13,11 +13,19 @@ class PagamentoControlador:
         self.__sistema_controlador = sistema_controlador
 
     def pagamento_padrao(self, dados: dict):
-        pessoa = self.__sistema_controlador.pessoa_controlador.pessoa_por_cpf(dados["cpf_membro"])
-        grupo = self.__sistema_controlador.grupo_controlador.grupo_por_codigo(dados["codigo"])
-        pacote = self.__sistema_controlador.pacote_controlador.pacote_grupo(grupo)
-        pacote_dao = self.__sistema_controlador.pacote_controlador.pacote_DAO
-        data_pagamento = datetime.today()
+        
+        pessoa = None
+        grupo = None
+        pacote = None
+        pacote_dao = None
+        data_pagamento = None
+
+        if dados is not None:
+            pessoa = self.__sistema_controlador.pessoa_controlador.pessoa_por_cpf(dados["cpf_membro"])
+            grupo = self.__sistema_controlador.grupo_controlador.grupo_por_codigo(dados["codigo"])
+            pacote = self.__sistema_controlador.pacote_controlador.pacote_grupo(grupo)
+            pacote_dao = self.__sistema_controlador.pacote_controlador.pacote_DAO
+            data_pagamento = datetime.today()
 
         if pacote is not None:
             if data_pagamento < pacote.data_viagem:
@@ -57,7 +65,10 @@ class PagamentoControlador:
             self.__pagamento_DAO.add(Dinheiro(pagamento["pessoa"], pagamento["grupo"], dados["valor"]))
 
     def listar_pagamentos(self):
+        self.__sistema_controlador.pessoa_controlador.listar_pessoas()
         cpf = self.__tela.pegar_cpf_lista()
+
+        dados_pagamentos = []
 
         for pagamento in self.__pagamento_DAO.get_all():
             if pagamento.pessoa.cpf == cpf:
@@ -78,7 +89,9 @@ class PagamentoControlador:
                 else:
                     pagamento_dict = {"pessoa": pagamento.pessoa.nome, "codigo": pagamento.grupo.codigo, "valor": pagamento.valor, "tipo": "Dinheiro"}
 
-                self.__tela.listar_pagamentos(pagamento_dict)
+                dados_pagamentos.append(pagamento_dict)
+
+        self.__tela.listar_pagamentos(dados_pagamentos)
 
     def pagamentos_tela(self):
         opcoes = {
