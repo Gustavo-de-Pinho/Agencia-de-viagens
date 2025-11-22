@@ -189,3 +189,7 @@ class CidadeControlador:
     @property
     def cidades(self):
         return self.__cidade_DAO.get_all()
+    
+    @property
+    def cidade_DAO(self):
+        return self.__cidade_DAO

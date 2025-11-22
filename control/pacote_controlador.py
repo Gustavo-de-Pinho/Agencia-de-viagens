@@ -77,10 +77,12 @@ class PacoteControlador:
 
                         if cidade is not None:
                             pacote.itinerario[dia]["cidade"] = cidade
+                            cidade.visitas += 1
                         if passeio is not None:
                             pacote.itinerario[dia]["passeio"] = passeio
                             pacote.valor_total += passeio.preco
                     
+                    self.__sistema_controlador.cidade_controlador.cidade_DAO.update(cidade)
                     self.__pacote_DAO.update(pacote)
                     self.__tela.mostrar_mensagem("Itinerário criado com sucesso!")
                 

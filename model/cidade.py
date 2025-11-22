@@ -5,6 +5,7 @@ class Cidade:
         self.__nome = None
         self.__id = id
         self.__passeios = []
+        self.__visitas = 0
 
         if isinstance(nome, str):
             self.__nome = nome
@@ -33,5 +34,14 @@ class Cidade:
     @property
     def passeios(self) -> list[PasseioTuristico]:
         return self.__passeios
+    
+    @property
+    def visitas(self):
+        return self.__visitas
+    
+    @visitas.setter
+    def visitas(self, visitas):
+        if isinstance(visitas, int):
+            self.__visitas = visitas
 
     

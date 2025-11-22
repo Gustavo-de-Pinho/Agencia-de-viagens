@@ -101,5 +101,5 @@ class PasseioTuristicoControlador:
 
     @property
     def passeios(self):
-        return self.__passeio_turistico_DAO
+        return self.__passeio_turistico_DAO.get_all()
 

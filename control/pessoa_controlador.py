@@ -108,4 +108,4 @@ class PessoaControlador:
 
     @property
     def pessoas(self):
-        return self.__pessoa_DAO.get_all
+        return self.__pessoa_DAO.get_all()

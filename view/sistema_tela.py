@@ -33,7 +33,36 @@ class SistemaTela:
             return 0
 
         return int(event)
-        
+    
+    def gerar_relatorio(self, dados):
+        '''print("======= RELATÓRIO =======")
+        print(f"> Número de pessoas: {dados["pessoas"]}")
+        print(f"> Número de grupos: {dados["grupos"]}")
+        print(f"> Cidade mais visitada: {dados["cidade_mais_visitada"]} ({dados["cidade_quant_visitas"]})")
+        print(f"> Passeio mais barato: {dados["passeio_mais_barato"]} ({dados["preco_barato"]})")
+        print(f"> Passeio mais caro: {dados["passeio_mais_caro"]} ({dados["preco_caro"]})")'''
+
+        layout = [
+            [sg.Text("------ RELATÓRIO ------", justification="c", expand_x=True, font=("Helvetica", 12, "bold"))],
+            [sg.Text(f"Número de pessoas cadastradas: {dados["pessoas"]}")],
+            [sg.Text(f"Número de grupos cadastrados: {dados["grupos"]}")],
+            [sg.Text(f"Cidade mais visitada: {dados["cidade_mais_visitada"]} ({dados["cidade_quant_visitas"]} visitas)")],
+            [sg.Text(f"Passeio mais barato: {dados["passeio_mais_barato"]} ({dados["preco_barato"]})")],
+            [sg.Text(f"Passeio mais caro: {dados["passeio_mais_caro"]} ({dados["preco_caro"]})")],
+            [sg.Push(), sg.Cancel("Retornar", key=0, button_color=("white", "firebrick3"), size=(15, 1)), sg.Push()]
+        ]
+
+        window = sg.Window("Relatório", layout=layout)
+
+        while True:
+            event, values = window.read()
+
+            if event == 0 or event == sg.WIN_CLOSED:
+                window.close()
+                break
+
+    def mostrar_mensagem(self, msg):
+        sg.popup(msg)
 
 if __name__ == "__main__":
     tela = SistemaTela()
@@ -61,15 +90,4 @@ if __name__ == "__main__":
             return opcao
         except:
             return None'''
-        
-    '''def gerar_relatorio(self, dados):
-        print("======= RELATÓRIO =======")
-        print(f"> Número de pessoas: {dados["pessoas"]}")
-        print(f"> Número de grupos: {dados["grupos"]}")
-        print(f"> Número de cidades: {dados["cidades"]}")
-        print(f"> Número de países: {dados["paises"]}")
-        print(f"> Número de passeios turísticos: {dados["passeios_turisticos"]}")
-        print("=========================")'''
 
-    def mostrar_mensagem(self, msg):
-        print(msg)

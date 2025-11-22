@@ -22,13 +22,43 @@ class SistemaControlador:
         self.__pacote_controlador = PacoteControlador(self)
 
     def gerar_relatorio(self):
-        self.__tela.gerar_relatorio({
+
+        quant_visitas = 0
+        cidade_mais_visitada = None
+
+        for cidade in self.__cidade_controlador.cidades:
+            if cidade.visitas > quant_visitas:
+                quant_visitas = cidade.visitas
+                cidade_mais_visitada = cidade
+
+        menor_preco = 9999
+        maior_preco = 0
+
+        passeio_mais_barato = None
+        passeio_mais_caro = None
+
+        for passeio in self.__passeio_turistico_controlador.passeios:
+
+            if passeio.preco == 0 or passeio.preco < menor_preco:
+                menor_preco = passeio.preco
+                passeio_mais_barato = passeio
+
+            if passeio.preco > maior_preco:
+                maior_preco = passeio.preco
+                passeio_mais_caro = passeio
+
+        dados_dict = {
             "pessoas": len(self.__pessoa_controlador.pessoas),
             "grupos": len(self.__grupo_controlador.grupos),
-            "cidades": len(self.__cidade_controlador.cidades),
-            "paises": len(self.__cidade_controlador.paises),
-            "passeios_turisticos": len(self.__passeio_turistico_controlador.passeios)
-        })
+            "cidade_mais_visitada": cidade_mais_visitada.nome,
+            "cidade_quant_visitas": quant_visitas,
+            "passeio_mais_barato": passeio_mais_barato.nome,
+            "preco_barato": menor_preco,
+            "passeio_mais_caro": passeio_mais_caro.nome,
+            "preco_caro": maior_preco
+            }
+        
+        self.__tela.gerar_relatorio(dados_dict)
 
     def abre_tela(self):
         opcoes = {
