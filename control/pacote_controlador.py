@@ -19,6 +19,9 @@ class PacoteControlador:
         return False
 
     def pacote_grupo(self, grupo):
+        if grupo is None:
+            return None
+        
         for pacote in self.__pacote_DAO.get_all():
             if pacote.grupo.codigo == grupo.codigo and not pacote.pago:
                 return pacote
