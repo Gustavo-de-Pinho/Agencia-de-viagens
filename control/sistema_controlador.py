@@ -29,32 +29,40 @@ class SistemaControlador:
         for cidade in self.__cidade_controlador.cidades:
             if cidade.visitas > quant_visitas:
                 quant_visitas = cidade.visitas
-                cidade_mais_visitada = cidade
+                cidade_mais_visitada = cidade.nome
 
-        menor_preco = 9999
+        passeios = list(self.__passeio_turistico_controlador.passeios)
+
+        menor_preco = 0
         maior_preco = 0
 
         passeio_mais_barato = None
         passeio_mais_caro = None
 
-        for passeio in self.__passeio_turistico_controlador.passeios:
+        if passeios is not None:
+            menor_preco = passeios[0].preco
+            maior_preco = passeios[0].preco
 
-            if passeio.preco == 0 or passeio.preco < menor_preco:
-                menor_preco = passeio.preco
-                passeio_mais_barato = passeio
+            passeio_mais_barato = passeios[0].nome
+            passeio_mais_caro = passeios[0].nome
 
-            if passeio.preco > maior_preco:
-                maior_preco = passeio.preco
-                passeio_mais_caro = passeio
+            for passeio in passeios:
+                if passeio.preco < menor_preco:
+                    menor_preco = passeio.preco
+                    passeio_mais_barato = passeio.nome
+
+                if passeio.preco > maior_preco:
+                    maior_preco = passeio.preco
+                    passeio_mais_caro = passeio.nome
 
         dados_dict = {
             "pessoas": len(self.__pessoa_controlador.pessoas),
             "grupos": len(self.__grupo_controlador.grupos),
-            "cidade_mais_visitada": cidade_mais_visitada.nome,
+            "cidade_mais_visitada": cidade_mais_visitada,
             "cidade_quant_visitas": quant_visitas,
-            "passeio_mais_barato": passeio_mais_barato.nome,
+            "passeio_mais_barato": passeio_mais_barato,
             "preco_barato": menor_preco,
-            "passeio_mais_caro": passeio_mais_caro.nome,
+            "passeio_mais_caro": passeio_mais_caro,
             "preco_caro": maior_preco
             }
         
