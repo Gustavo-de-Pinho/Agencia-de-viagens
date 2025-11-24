@@ -39,7 +39,7 @@ class SistemaControlador:
         passeio_mais_barato = None
         passeio_mais_caro = None
 
-        if passeios is not None:
+        if passeios: #lista vazia é falsy, lista com elementos é truthy. Checa se a lista tem elementos.
             menor_preco = passeios[0].preco
             maior_preco = passeios[0].preco
 
