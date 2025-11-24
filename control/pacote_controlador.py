@@ -30,15 +30,17 @@ class PacoteControlador:
 
     def criar_pacote(self):
         dados = self.__tela.criar_pacote()
-        grupo = self.__sistema_controlador.grupo_controlador.grupo_por_codigo(dados["codigo"])
-        data = dados["data"]
-    
-        pacote = Pacote(grupo, data)
+        
+        if dados is not None:
+            grupo = self.__sistema_controlador.grupo_controlador.grupo_por_codigo(dados["codigo"])
+            data = dados["data"]
+        
+            pacote = Pacote(grupo, data)
 
-        if grupo is not None and not self.pacote_pendente(grupo) and pacote.data_viagem is not None:
-            self.__pacote_DAO.add(pacote)
-        else:
-            self.__tela.mostrar_mensagem("DADOS INVÁLIDOS")
+            if grupo is not None and not self.pacote_pendente(grupo) and pacote.data_viagem is not None:
+                self.__pacote_DAO.add(pacote)
+            else:
+                self.__tela.mostrar_mensagem("DADOS INVÁLIDOS")
 
     def adicionar_passagem(self):
         codigo = self.__tela.adicionar_passagem()

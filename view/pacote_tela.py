@@ -25,6 +25,7 @@ class PacoteTela:
             if event == 0 or event == sg.WIN_CLOSED:
                 self.__window_menu.close()
                 self.__window_menu = None
+                return 0
 
             return event
         
@@ -66,6 +67,7 @@ class PacoteTela:
             if event == 0 or event == sg.WIN_CLOSED:
                 self.__window_edicao_menu.close()
                 self.__window_edicao_menu = None
+                return 0
 
             return event
 

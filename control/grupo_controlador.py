@@ -61,16 +61,17 @@ class GrupoControlador:
         
         dados = self.__tela.adicionar_membro()
 
-        grupo = self.__grupo_DAO.get(dados["codigo"])
+        if dados is not None:
+            grupo = self.__grupo_DAO.get(dados["codigo"])
 
-        if grupo is not None:
-            pessoa = self.__sistema_controlador.pessoa_controlador.pessoa_por_cpf(dados["cpf"])
+            if grupo is not None:
+                pessoa = self.__sistema_controlador.pessoa_controlador.pessoa_por_cpf(dados["cpf"])
 
-            if pessoa is not None:
-                codigo = dados ["codigo"]
-                self.__grupo_DAO.get(codigo).membros.append(pessoa)
+                if pessoa is not None:
+                    codigo = dados ["codigo"]
+                    self.__grupo_DAO.get(codigo).membros.append(pessoa)
 
-        self.__grupo_DAO.update(grupo)
+            self.__grupo_DAO.update(grupo)
 
     def remover_membro(self):
         self.listar_membros()
@@ -80,22 +81,23 @@ class GrupoControlador:
         grupo_existe = False
         membro_no_grupo = False
 
-        grupo = self.__grupo_DAO.get(dados["codigo"])
+        if dados is not None:
+            grupo = self.__grupo_DAO.get(dados["codigo"])
 
-        if dados is not None and grupo in self.__grupo_DAO.get_all():
-            pessoa = self.__sistema_controlador.pessoa_controlador.pessoa_por_cpf(dados["cpf"])
-            if pessoa is not None:
-                for membro in self.__grupo_DAO.get(dados["codigo"]).membros:
-                    if membro.cpf == pessoa.cpf:
-                        membro_no_grupo = True
-                        self.__grupo_DAO.get(dados["codigo"]).membros.remove(membro)
+            if dados is not None and grupo in self.__grupo_DAO.get_all():
+                pessoa = self.__sistema_controlador.pessoa_controlador.pessoa_por_cpf(dados["cpf"])
+                if pessoa is not None:
+                    for membro in self.__grupo_DAO.get(dados["codigo"]).membros:
+                        if membro.cpf == pessoa.cpf:
+                            membro_no_grupo = True
+                            self.__grupo_DAO.get(dados["codigo"]).membros.remove(membro)
+
+            self.__grupo_DAO.update(grupo)
 
         if not pessoa_existe and not grupo_existe and not membro_no_grupo:
             self.__tela.mostrar_mensagem("GRUPO OU PESSOA INEXISTENTE OU PESSOA NÃO ESTÁ NO GRUPO")
         else:
             self.__tela.mostrar_mensagem("MEMBRO REMOVIDO COM SUCESSO")
-
-        self.__grupo_DAO.update(grupo)
 
     def listar_membros(self):
         self.listar_grupos()

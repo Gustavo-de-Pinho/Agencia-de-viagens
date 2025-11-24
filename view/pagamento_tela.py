@@ -7,20 +7,6 @@ class PagamentoTela:
         self.__window_menu_pagamento = None
 
     def mostrar_opcoes(self):
-        '''print("======= OPÇÕES =======")
-        print("> (1) Realizar Pagamento")
-        print("> (2) Histórico de Pagamentos")
-        print("> (0) Retornar")
-        print("======================")
-        print()
-
-        opcao = input("Escolha uma opção: ")
-
-        try:
-            opcao = int(opcao)
-            return opcao
-        except:
-            return None'''
         
         layout = [
             [sg.Text("------ GERENCIAMENTO ------", font=("Helvetica", 12, "bold"), justification="center", expand_x=True)],
@@ -39,20 +25,11 @@ class PagamentoTela:
             if event == 0 or event == sg.WIN_CLOSED:
                 self.__window_menu.close()
                 self.__window_menu = None
+                return 0
 
             return event
         
     def pagamento_padrao_dados(self):
-        '''cpf = input("> CPF do Membro: ")
-        codigo = input("> Código do Grupo: ")
-        valor = input("> Valor do pagamento: ")
-
-        try:
-            valor = float(valor)
-            codigo = int(codigo)
-            return {"cpf_membro": cpf, "codigo": codigo, "valor": valor}
-        except:
-            return None'''
         
         layout = [
             [sg.Text("------ DADOS PADRÕES DE PAGAMENTO ------", justification="c", expand_x=True)],
@@ -75,20 +52,6 @@ class PagamentoTela:
             return None
         
     def realizar_pagamento(self):
-        '''print("======= REALIZAR PAGAMENTO =======")
-        print("> (1) PIX")
-        print("> (2) Cartão de Crédito")
-        print("> (3) Dinheiro")
-        print("> (0) Retornar")
-        print("==================================")
-
-        opcao = input("Escolha uma opcao: ")
-
-        try:
-            opcao = int(opcao)
-            return opcao
-        except:
-            return None'''
         
         layout = [
             [sg.Text("------ REALIZAR PAGAMENTO ------", justification="c", expand_x=True)],
@@ -107,14 +70,12 @@ class PagamentoTela:
             if event == 0 or event == sg.WIN_CLOSED:
                 self.__window_menu_pagamento.close()
                 self.__window_menu_pagamento = None
+                return 0
 
             return event
 
     def pagamento_pix(self):
         dados = self.pagamento_padrao_dados()
-
-        '''if dados is not None:
-            dados["cpf_pagador"] = input("> CPF do Pagador: ")'''
         
         layout = [
             [sg.Text("------ PAGAMENTO PIX ------", justification="c", expand_x=True)],
@@ -135,10 +96,6 @@ class PagamentoTela:
         
     def pagamento_cartao(self):
         dados = self.pagamento_padrao_dados()
-        
-        '''if dados is not None:
-            dados["numero_cartao"] = input("> Número do Cartão: ")
-            dados["bandeira"] = input("> Bandeira do Cartão: ")'''
         
         layout = [
             [sg.Text("------ PAGAMENTO CARTÃO DE CŔEDITO ------", justification="c", expand_x=True)],
@@ -164,9 +121,6 @@ class PagamentoTela:
         return dados
     
     def pegar_cpf_lista(self):
-        '''print("====== LISTAR PAGAMENTOS ======")
-        cpf = input("> CPF: ")
-        print("===============================")'''
 
         layout = [
             [sg.Text("------ LISTAR PAGAMENTOS ------", justification="c", expand_x=True)],
@@ -182,10 +136,6 @@ class PagamentoTela:
         return dados_dict["cpf"]
     
     def listar_pagamentos(self, dados_pagamentos: list):
-        '''print("========================")
-        for key in pagamento_dict:
-            print(f"> {pagamento_dict[key]}")
-        print("========================")'''
 
         string_pagamentos = ''
 

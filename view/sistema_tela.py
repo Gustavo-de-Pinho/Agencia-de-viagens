@@ -10,6 +10,7 @@ class SistemaTela:
     
     def mostra_opcoes(self) -> int:
         layout = [
+            [sg.Image("view/aviao.png")],
             [sg.Text('------ SISTEMA ------', font=('Helvetica', 12, 'bold'), justification='center', expand_x=True)],
             [sg.Text('--INDÍVIDUOS--', font=('Helvetica', 10, 'bold'))],
             [sg.Button('Pessoa', key='1', size=(15,1)), sg.Button('Grupo', key='2', size=(15,1))],
@@ -35,12 +36,6 @@ class SistemaTela:
         return int(event)
     
     def gerar_relatorio(self, dados):
-        '''print("======= RELATÓRIO =======")
-        print(f"> Número de pessoas: {dados["pessoas"]}")
-        print(f"> Número de grupos: {dados["grupos"]}")
-        print(f"> Cidade mais visitada: {dados["cidade_mais_visitada"]} ({dados["cidade_quant_visitas"]})")
-        print(f"> Passeio mais barato: {dados["passeio_mais_barato"]} ({dados["preco_barato"]})")
-        print(f"> Passeio mais caro: {dados["passeio_mais_caro"]} ({dados["preco_caro"]})")'''
 
         layout = [
             [sg.Text("------ RELATÓRIO ------", justification="c", expand_x=True, font=("Helvetica", 12, "bold"))],
@@ -68,26 +63,4 @@ if __name__ == "__main__":
     tela = SistemaTela()
     opcao_escolhida = tela.tela_opcoes()
     print(f"Você escolheu a opção: {opcao_escolhida}")
-    
-    '''def opcoes(self):
-        print("====== OPÇÕES ======")
-        print("> (1) PESSOA")
-        print("> (2) GRUPO")
-        print("> (3) CIDADE/PAÍS")
-        print("> (4) PASSEIO TURÍSTICO")
-        print("> (5) TRANSPORTE")
-        print("> (6) PACOTE")
-        print("> (7) PAGAMENTO")
-        print("> (8) GERAR RELATÓRIO")
-        print("> (0) SAIR")
-        print("=====================")
-        print()
-        
-        opcao = input("Escolha uma opção: ")
-        
-        try:
-            opcao = int(opcao)
-            return opcao
-        except:
-            return None'''
 
